@@ -1,10 +1,36 @@
 @import "tailwindcss";
 
-/* Base neutra. Tokens e identidade visual do clube serão definidos depois. */
+@theme static {
+  --color-bage-black: #0a0a09;
+  --color-bage-jalde: #f2c500;
+  --color-bage-ivory: #f4f1e8;
+  --color-bage-charcoal: #1a1a18;
+  --color-foreground: var(--color-bage-ivory);
+  --color-foreground-secondary: #b8b5ac;
+}
+
+@theme inline {
+  --font-sans: var(--font-source-sans);
+  --font-display: var(--font-barlow-condensed);
+}
+
 @layer base {
   body {
     margin: 0;
     min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-bage-black);
+    color: var(--color-foreground);
+    font-family: var(--font-source-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-barlow-condensed);
+    font-weight: 700;
   }
 }

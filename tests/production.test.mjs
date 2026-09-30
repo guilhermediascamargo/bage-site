@@ -96,6 +96,29 @@ test(
       assert.match(await response.text(), /\.p-6\s*\{/);
     });
 
+    await t.test(
+      "destinos da navegação respondem com placeholders",
+      async () => {
+        const routes = [
+          ["/noticias", "Notícias"],
+          ["/jogos", "Jogos"],
+          ["/elenco", "Elenco"],
+          ["/historia", "História"],
+          ["/clube", "Clube"],
+        ];
+
+        for (const [path, title] of routes) {
+          const response = await fetch(new URL(path, baseUrl));
+          assert.equal(response.status, 200, path);
+          const page = await response.text();
+          assert.match(page, new RegExp(`<h1[^>]*>${title}</h1>`));
+          assert.match(page, /Esta página está em desenvolvimento\./);
+          assert.equal((page.match(/<main\b/g) ?? []).length, 1);
+          assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+        }
+      },
+    );
+
     await t.test("rota inexistente retorna 404", async () => {
       const response = await fetch(`${baseUrl}/__foundation_missing_route__`);
       assert.equal(response.status, 404);
