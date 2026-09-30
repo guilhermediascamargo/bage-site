@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Base neutra. Tokens e identidade visual do clube serão definidos depois. */
+@layer base {
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
