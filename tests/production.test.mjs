@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import { setTimeout as delay } from "node:timers/promises";
 import test from "node:test";
+import "./matches.test.mjs";
 
 const require = createRequire(import.meta.url);
 const {
@@ -195,6 +196,60 @@ test(
       assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
     });
 
+    await t.test(
+      "Home-hub: vitrines, fontes compartilhadas e 12 patrocinadores",
+      () => {
+        const main = html.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+        assert.ok(main);
+        for (const id of [
+          "home-now",
+          "home-squad",
+          "home-season",
+          "home-history",
+          "home-sponsors",
+        ]) {
+          assert.ok(main.includes(`id="${id}"`), id);
+        }
+        assert.match(main, /Notícias aguardam conteúdo verificado/);
+        const athleteLinks = [
+          ...main.matchAll(/href="\/elenco\/([^"#?]+)"/g),
+        ].map((match) => match[1]);
+        assert.equal(athleteLinks.length, 8);
+        assert.equal(new Set(athleteLinks).size, 8);
+        for (const slug of athleteLinks)
+          assert.ok(
+            professionalAthletes.some((athlete) => athlete.slug === slug),
+          );
+        assert.equal((main.match(/data-home-match-id=/g) ?? []).length, 3);
+        assert.match(main, /GE Bagé 4 a 1 Brasil de Pelotas/);
+        assert.match(main, /dateTime="1920-08-05"|datetime="1920-08-05"/);
+        for (const file of [
+          "cc-corretora",
+          "concrefort",
+          "lenir",
+          "peruzzo",
+          "rct",
+          "sao-jorge",
+          "sbe",
+          "sim",
+          "sindicred",
+          "singular",
+          "ultra-med",
+          "valcar",
+        ]) {
+          assert.ok(main.includes(`${file}.png`), file);
+          assert.ok(existsSync(`public/images/sponsors/${file}.png`), file);
+        }
+        for (const route of ["/noticias", "/elenco", "/jogos", "/historia"])
+          assert.ok(main.includes(`href="${route}"`), route);
+        const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0];
+        assert.ok(footer);
+        assert.match(footer, /Voltar ao topo/);
+        assert.match(footer, /Protótipo não oficial/);
+        assert.doesNotMatch(footer, /Estádio Pedra Moura|Fundado em|wordmark/);
+      },
+    );
+
     await t.test("CSS compilado está acessível", async () => {
       const cssPath = html.match(/href="([^\"]+\.css(?:\?[^\"]*)?)"/)?.[1];
       assert.ok(
@@ -214,7 +269,6 @@ test(
       async () => {
         const routes = [
           ["/noticias", "Notícias"],
-          ["/jogos", "Jogos"],
           ["/historia", "História"],
           ["/clube", "Clube"],
         ];
@@ -228,6 +282,37 @@ test(
           assert.equal((page.match(/<main\b/g) ?? []).length, 1);
           assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
         }
+      },
+    );
+
+    await t.test(
+      "Jogos 2026: 23 cards informativos, filtros e registro especial",
+      async () => {
+        const response = await fetch(new URL("/jogos", baseUrl));
+        assert.equal(response.status, 200);
+        const page = await response.text();
+        const main = page.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+        assert.ok(main);
+        assert.equal((main.match(/data-match-id=/g) ?? []).length, 23);
+        assert.match(main, /Agregado/);
+        assert.match(main, /Pênaltis/);
+        assert.match(main, /Gol contra/);
+        assert.match(main, /João Victor Castro/);
+        assert.match(main, /20H/);
+        assert.match(main, /Frederico Westphalen\/RS/);
+        assert.match(main, /Escudo do União Frederiquense/);
+        assert.doesNotMatch(
+          main,
+          /dia a confirmar|Estádio a confirmar|Registro especial|Memória da temporada|De maio a setembro|Uma camisa|valor entre parênteses|Registro especial preservado/,
+        );
+        assert.match(main, /aria-pressed="true"/);
+        assert.match(main, /role="status"/);
+        assert.doesNotMatch(main, /<a\b/);
+        assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+        assert.equal(
+          (await fetch(new URL("/jogos/fgf-01", baseUrl))).status,
+          404,
+        );
       },
     );
 

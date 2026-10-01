@@ -7,8 +7,13 @@ Fundação técnica, visual e estrutura global concluídas.
 A abertura da Home foi reconstruída com hero fotográfico; “Bagé Agora” foi removido.
 `/elenco` deixou de ser placeholder e oferece Profissional, Base e Diretoria.
 O profissional e seus 30 perfis individuais estão implementados; Base e Diretoria
-aguardam dados. As experiências aguardam revisão humana. A Home inteira não está
-finalizada e não foi redesenhada na etapa de elenco.
+aguardam dados. As experiências aguardam revisão humana.
+A Home-hub foi ampliada com o conceito Fio Jalde, preservando o hero aprovado:
+Agora, rail de oito atletas, vitrine da temporada, entrada histórica e 12 patrocinadores.
+O footer global passou a ter eixo central institucional, sem o BAGÉ monumental.
+A Home aguarda revisão por prints antes de qualquer novo checkpoint.
+`/jogos` apresenta os 23 jogos fornecidos de 2026, em timeline mensal com filtros
+por competição e mando, balanço da temporada e cards informativos sem rota individual.
 
 ## Etapas concluídas
 
@@ -33,7 +38,8 @@ Next.js com App Router, React, TypeScript strict, Tailwind CSS 4 e pnpm.
 `src/app` compõe rotas; `src/components` contém compartilhados; `src/features`
 organiza `matches`, `news` e `athletes`; `src/server` reserva integrações privadas.
 Server Components por padrão; Header e seletor das áreas do elenco são as
-fronteiras Client. Os painéis, cards e perfis são compostos no servidor.
+fronteiras Client, junto aos filtros de Jogos, controles do rail da Home e navegação/
+voltar ao topo do footer. As vitrines, painéis, cards e perfis são compostos no servidor.
 Protótipo com `noindex, nofollow`. Sem banco, autenticação, CMS, storage externo ou
 API esportiva.
 
@@ -75,7 +81,8 @@ com validações finais. A publicação desta branch não significa merge em `ma
 
 ## Próxima etapa
 
-Próximo foco: página Jogos, mediante definição de escopo. Aguardar dados verificados
+Próximo foco: revisão visual humana da Home-hub e do footer; consolidar Jogos 2026.
+Aguardar dados verificados
 para Base, Diretoria e informações pessoais, além dos sete retratos restantes.
 Revisão humana e integrações continuam dependentes de autorização.
 
@@ -84,10 +91,31 @@ Revisão humana e integrações continuam dependentes de autorização.
 - Projeto declara pnpm 11.19.0; ambiente utiliza pnpm 11.25.0. Os validadores
   equivalentes passam, mas `pnpm check` é bloqueado pela divergência.
 - `next/font/google` exige rede no build quando as fontes precisam ser obtidas.
-- Aguardar os sete retratos restantes e dados individuais detalhados. Notícias e jogos
-  da Home continuam demonstrativos; o elenco utiliza a lista fornecida de 2026.
+- Aguardar os sete retratos restantes e dados individuais detalhados. O hero mantém
+  notícia e partidas demonstrativas identificadas; a vitrine de temporada usa Jogos 2026.
+- Não há notícias verificadas nem acervo fotográfico histórico no repositório.
+  Agora permanece compacto; História utiliza somente a fundação já registrada em
+  5 de agosto de 1920 e o escudo. Notícias, História e Clube continuam placeholders.
+- Os 12 logos fornecidos estão integrados sem modificar os arquivos. Redes sociais,
+  rotas legais e crédito de desenvolvimento não foram inventados no footer.
 
 As condições do ambiente não representam falha estrutural.
+
+## Jogos 2026
+
+Base fornecida pelo responsável: 23 jogos, 6 vitórias, 8 empates, 9 derrotas,
+20 gols marcados e 26 sofridos, saldo -6. O balanço informado de 25 sofridos
+diverge dos placares: Copa FGF soma 7 e Série A2 soma 19. Por decisão do responsável,
+manter o cálculo de 26 até corrigir o placar divergente; nenhum resultado foi alterado.
+O amistoso contra o Stand não integra os 23 jogos nem as estatísticas.
+Datas, horários, cidades e autores/minutos dos gols foram alimentados com a base
+fornecida. Rodadas adiadas, gol contra e pênalti estão representados explicitamente.
+Na semifinal de volta, placar 0–1, agregado 1–1 e pênaltis 3–0 para o Gramadense
+são informações separadas. As 11 fotos de estádios e os 17 escudos adversários
+possuem mapeamento centralizado, sem alterar os arquivos. A visita ao Farroupilha
+usa Boca do Lobo. Escudo do Stand preservado, sem incluir o clube no dataset.
+Textos redundantes removidos, anatomia visual e filtros preservados.
+Sem backend ou novas dependências. Aguardar revisão humana da consolidação.
 
 ## Decisões que devem ser preservadas
 
@@ -98,6 +126,18 @@ identificados como demonstrativos. Não recolorir ou recriar o escudo. Jalde com
 assinatura, fotografia e tipografia como base da composição. Mobile desde o início.
 
 ## Última validação conhecida
+
+Home-hub: Prettier, ESLint, Next typegen, TypeScript, build estático e 14 testes
+(incluindo vitrines, links, 12 patrocinadores e os 30 perfis) aprovados.
+Reflow conferido em 320, 390, 768, 1280 e 1440 px, sem overflow horizontal da página.
+Rail por setas e foco, logos e voltar ao topo por teclado conferidos; reduced motion
+tratado em CSS e nos controles de scroll. Aguardar revisão humana dos prints.
+
+Consolidação de Jogos 2026: Prettier, ESLint, Next typegen, TypeScript, build e 13 testes
+(domínio e smoke HTTP) aprovados. Filtros conferidos nas nove combinações e por
+teclado; revisão visual em 320, 390, 768, 1280 e 1440 px, sem overflow horizontal.
+Fotos e escudos carregaram nos 23 cards; cinco gols, gol contra e decisão por
+pênaltis revisados no mobile. Reduced motion preservado em CSS.
 
 Integração de retratos e numeração: ESLint, Next typegen, TypeScript, Next build,
 8 testes (incluindo os 30 perfis), Prettier e `git diff --check` aprovados.

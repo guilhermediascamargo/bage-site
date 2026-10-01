@@ -1,4 +1,5 @@
 import Image from "next/image";
+import HomeHub from "@/features/home/components/home-hub";
 import LastResult from "@/features/matches/components/last-result";
 import NextMatch from "@/features/matches/components/next-match";
 import {
@@ -52,6 +53,7 @@ export default function HomePage() {
           />
         </div>
       </section>
+      <HomeHub />
     </main>
   );
 }
