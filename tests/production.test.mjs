@@ -264,24 +264,63 @@ test(
       assert.ok((await response.text()).trim().length > 0);
     });
 
-    await t.test(
-      "destinos da navegação respondem com placeholders",
-      async () => {
-        const routes = [
-          ["/noticias", "Notícias"],
-          ["/historia", "História"],
-          ["/clube", "Clube"],
-        ];
+    await t.test("Notícias e Clube preservam seus placeholders", async () => {
+      const routes = [
+        ["/noticias", "Notícias"],
+        ["/clube", "Clube"],
+      ];
 
-        for (const [path, title] of routes) {
-          const response = await fetch(new URL(path, baseUrl));
-          assert.equal(response.status, 200, path);
-          const page = await response.text();
-          assert.match(page, new RegExp(`<h1[^>]*>${title}</h1>`));
-          assert.match(page, /Esta página está em desenvolvimento\./);
-          assert.equal((page.match(/<main\b/g) ?? []).length, 1);
-          assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+      for (const [path, title] of routes) {
+        const response = await fetch(new URL(path, baseUrl));
+        assert.equal(response.status, 200, path);
+        const page = await response.text();
+        assert.match(page, new RegExp(`<h1[^>]*>${title}</h1>`));
+        assert.match(page, /Esta página está em desenvolvimento\./);
+        assert.equal((page.match(/<main\b/g) ?? []).length, 1);
+        assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+      }
+    });
+
+    await t.test(
+      "História apresenta narrativa estática e cronologia",
+      async () => {
+        const response = await fetch(new URL("/historia", baseUrl));
+        assert.equal(response.status, 200);
+        const page = await response.text();
+        const main = page.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+        assert.ok(main);
+        assert.equal((page.match(/<main\b/g) ?? []).length, 1);
+        assert.match(main, /<h1[^>]*>História<\/h1>/);
+        assert.doesNotMatch(main, /Esta página está em desenvolvimento/);
+        for (const scene of [
+          "antes",
+          "origens",
+          "fundacao",
+          "casa",
+          "imortais",
+          "continuidade",
+          "bagua",
+          "pele",
+          "resistir",
+          "luzes",
+          "centenario",
+          "presente",
+          "arquivo",
+        ]) {
+          assert.ok(main.includes(`id="${scene}"`), scene);
         }
+        assert.match(main, /<details>/);
+        assert.match(main, /dateTime="1920-08-05"|datetime="1920-08-05"/);
+        assert.match(main, /Os Imortais/);
+        assert.match(main, /Copa Cícero Soares/);
+        assert.match(main, /Combinado de/);
+        assert.match(main, /Bagé 7, Guarany 0/);
+        assert.match(main, /fotografia atual do acervo/);
+        assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+        assert.doesNotMatch(
+          main,
+          /primeiro campeão gaúcho do interior|Bagé x Santos/i,
+        );
       },
     );
 
