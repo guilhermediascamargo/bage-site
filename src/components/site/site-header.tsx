@@ -17,6 +17,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
   const [compact, setCompact] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const overPhoto = pathname === "/" && !compact && !menuOpen;
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -61,8 +62,12 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
         aria-hidden="true"
         className="pointer-events-none absolute top-0 h-8 w-px"
       />
-      <header className="pointer-events-none sticky top-0 z-50 h-20 shrink-0 lg:h-24">
-        <div className="pointer-events-auto border-b border-bage-charcoal bg-bage-black">
+      <header
+        className={`pointer-events-none sticky top-0 z-50 h-20 shrink-0 lg:h-24 ${pathname === "/" ? "-mb-20 lg:-mb-24" : ""}`}
+      >
+        <div
+          className={`pointer-events-auto border-b transition-colors duration-200 motion-reduce:transition-none ${overPhoto ? "border-bage-ivory/20 bg-transparent" : "border-bage-charcoal bg-bage-black/98"}`}
+        >
           <div
             className={`relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 transition-[height] duration-200 motion-reduce:transition-none lg:px-8 ${compact ? "h-16 lg:h-18" : "h-20 lg:h-24"}`}
           >
@@ -117,7 +122,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
             <nav
               id="site-navigation"
               aria-label="Navegação principal"
-              className={`${menuOpen ? "block" : "hidden"} absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-bage-charcoal bg-bage-black px-6 py-4 lg:static lg:block lg:max-h-none lg:overflow-visible lg:border-0 lg:p-0`}
+              className={`${menuOpen ? "block" : "hidden"} absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-bage-charcoal bg-bage-black px-6 py-4 lg:static lg:block lg:max-h-none lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0`}
             >
               <ul className="grid gap-1 lg:flex lg:items-center">
                 {siteNavigation.map(({ href, label }) => {

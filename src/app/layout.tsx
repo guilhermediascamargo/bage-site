@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Source_Sans_3 } from "next/font/google";
+import { Archivo, Barlow_Condensed } from "next/font/google";
 import type { ReactNode } from "react";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
@@ -13,10 +13,10 @@ const barlowCondensed = Barlow_Condensed({
   fallback: ["Arial Narrow", "Arial", "sans-serif"],
 });
 
-const sourceSans = Source_Sans_3({
+const archivo = Archivo({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-source-sans",
+  variable: "--font-archivo",
   fallback: ["Arial", "Helvetica", "sans-serif"],
 });
 
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="pt-BR"
-      className={`${barlowCondensed.variable} ${sourceSans.variable}`}
+      className={`${barlowCondensed.variable} ${archivo.variable}`}
     >
       <body className="flex min-h-screen flex-col">
         <SiteHeader />

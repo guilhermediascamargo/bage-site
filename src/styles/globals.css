@@ -10,8 +10,9 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-source-sans);
-  --font-display: var(--font-barlow-condensed);
+  --font-sans: var(--font-archivo);
+  --font-display: var(--font-archivo);
+  --font-sport: var(--font-barlow-condensed);
 }
 
 @layer base {
@@ -20,7 +21,7 @@
     min-height: 100vh;
     background-color: var(--color-bage-black);
     color: var(--color-foreground);
-    font-family: var(--font-source-sans);
+    font-family: var(--font-archivo);
     text-rendering: optimizeLegibility;
   }
 
@@ -30,7 +31,7 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-barlow-condensed);
+    font-family: var(--font-archivo);
     font-weight: 700;
   }
 }
