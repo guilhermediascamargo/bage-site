@@ -26,7 +26,10 @@ horário previsto, usa estado neutro, sem simulação de live.
 família, com seleção/virada, detalhes e contato via WhatsApp. Benefícios são
 explicitamente **demonstrativos, não oficiais**. Não realiza associação online,
 pagamento ou cadastro. Sócios incluído na navegação compartilhada e no footer.
-Estas evoluções aguardam revisão visual humana; nenhum checkpoint desta rodada.
+Estas evoluções aguardam revisão visual humana e foram preservadas no checkpoint
+local `758389b`. História foi integrada de `origin/feature/historia`, commit
+`4c61111`, mantendo a implementação do colaborador; integração ainda sem push.
+`/historia` deixou de ser placeholder e apresenta scrollytelling e cronologia.
 
 ## Etapas concluídas
 
@@ -109,8 +112,10 @@ Revisão humana e integrações continuam dependentes de autorização.
 - Aguardar os sete retratos restantes e dados individuais detalhados. O hero mantém
   notícia e partidas demonstrativas identificadas; a vitrine de temporada usa Jogos 2026.
 - Não há notícias verificadas nem acervo fotográfico histórico no repositório.
-  Agora permanece compacto; História utiliza somente a fundação já registrada em
-  5 de agosto de 1920 e o escudo. Notícias, História e Clube continuam placeholders.
+  Agora permanece compacto; a entrada histórica da Home utiliza a fundação já
+  registrada em 5 de agosto de 1920 e o escudo. Notícias e Clube continuam placeholders.
+  História agora possui narrativa e cronologia próprias; utiliza fotografia atual
+  do Pedra Moura identificada como atual, sem simular acervo histórico.
 - Os 12 logos fornecidos estão integrados sem modificar os arquivos. Redes sociais,
   rotas legais e crédito de desenvolvimento não foram inventados no footer.
 
@@ -141,6 +146,13 @@ identificados como demonstrativos. Não recolorir ou recriar o escudo. Jalde com
 assinatura, fotografia e tipografia como base da composição. Mobile desde o início.
 
 ## Última validação conhecida
+
+Integração local de História: Prettier, ESLint, Next typegen, TypeScript, build
+estático, 18 testes de domínio/smoke e `git diff --check` aprovados. Home, Jogos,
+Elenco, Sócios e História abriram pela navegação compartilhada, sem erros de console.
+O único conflito de merge foi no smoke test: preservados Home/Sócios e os novos
+testes da narrativa histórica. Código de História idêntico ao commit `4c61111`;
+demais implementações e assets preservados. Aguardar revisão antes de push.
 
 Rodada Home/Sócios: Prettier, ESLint, Next typegen, TypeScript, build estático,
 17 testes de domínio/smoke e `git diff --check` aprovados. Home e Sócios conferidas
