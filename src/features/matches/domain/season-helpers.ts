@@ -10,6 +10,15 @@ export function isBageHome(match: Pick<SeasonMatch, "homeTeam">) {
   return match.homeTeam.slug === "bage";
 }
 
+export function recentSeasonMatches(
+  matches: readonly SeasonMatch[],
+  count = 3,
+) {
+  return [...matches]
+    .sort((a, b) => (b.date ?? b.month).localeCompare(a.date ?? a.month))
+    .slice(0, count);
+}
+
 // O resultado da partida é independente do agregado e da disputa de pênaltis.
 export function resultForBage(match: SeasonMatch): MatchResult {
   const difference =

@@ -2,16 +2,16 @@ import Image from "next/image";
 import HomeHub from "@/features/home/components/home-hub";
 import LastResult from "@/features/matches/components/last-result";
 import NextMatch from "@/features/matches/components/next-match";
-import {
-  demoLastResult,
-  demoNextMatch,
-} from "@/features/matches/data/demo-matches";
+import { demoNextMatch } from "@/features/matches/data/demo-matches";
+import { matches2026 } from "@/features/matches/data/matches-2026";
+import { recentSeasonMatches } from "@/features/matches/domain/season-helpers";
 import FeaturedNews from "@/features/news/components/featured-news";
 import { demoFeaturedNews } from "@/features/news/data/demo-news";
 import styles from "./page.module.css";
 
 export default function HomePage() {
-  const hasDemoContent = [demoNextMatch, demoFeaturedNews, demoLastResult].some(
+  const lastResult = recentSeasonMatches(matches2026, 1)[0] ?? null;
+  const hasDemoContent = [demoNextMatch, demoFeaturedNews].some(
     (content) => content?.contentStatus === "demo",
   );
   return (
@@ -24,7 +24,7 @@ export default function HomePage() {
         <div className={styles.photograph}>
           <Image
             src="/images/prototype/home/hero-jogador.jpg"
-            alt="Jogador com uniforme jalde e negro, de braços abertos em campo."
+            alt="Jogadores do Bagé celebrando juntos em campo."
             fill
             sizes="100vw"
             preload
@@ -39,7 +39,7 @@ export default function HomePage() {
               className="mt-7 max-w-md text-xs leading-relaxed text-bage-ivory/85"
             >
               <strong className="font-semibold">Conteúdo demonstrativo.</strong>{" "}
-              Notícia e dados esportivos ilustrativos, sem caráter oficial.
+              Notícia e próximo jogo ilustrativos, sem caráter oficial.
             </p>
           )}
         </div>
@@ -47,10 +47,7 @@ export default function HomePage() {
           <NextMatch match={demoNextMatch} />
         </div>
         <div className={styles.result}>
-          <LastResult
-            match={demoLastResult}
-            prominent={demoNextMatch === null}
-          />
+          <LastResult match={lastResult} prominent={demoNextMatch === null} />
         </div>
       </section>
       <HomeHub />

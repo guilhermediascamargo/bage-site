@@ -1,36 +1,46 @@
 # Produto e escopo
 
-Projeto: site do Grêmio Esportivo Bagé.
+Protótipo não oficial do site do Grêmio Esportivo Bagé. O estado detalhado e as
+validações conhecidas ficam em `docs/project-status.md`.
 
-## Etapa atual
+## Experiência atual
 
-Fundação técnica limpa e executável. A única rota é um marcador técnico temporário.
-Não há conteúdo factual sobre o clube além do nome informado pelo responsável.
+- Home-hub: hero fotográfico, entrada de Notícias, rail dos 30 atletas, vitrine de
+  Jogos 2026, entrada histórica e 12 patrocinadores.
+- Jogos: 23 partidas oficiais de 2026, filtros, gols e decisão por agregado/pênaltis.
+  Amistosos não integram as estatísticas; os placares somam 26 gols sofridos.
+- Elenco: 30 profissionais, 23 retratos e 7 fallbacks, perfis individuais; Base e
+  Diretoria aguardam dados verificados.
+- História: scrollytelling e cronologia alternativa, preservando a narrativa integrada.
+- Sócios: 15 modalidades e preços fornecidos, carteirinhas, detalhes e contato com
+  o clube pelo WhatsApp. Benefícios explicitamente demonstrativos, não oficiais.
+- Notícias e Clube permanecem placeholders. A notícia e o próximo jogo do hero
+  são demonstrativos; o último resultado utiliza o dataset real de Jogos.
 
-## Domínios previstos
+## Identidade e conteúdo
 
-| Domínio        | Responsabilidade prevista  |
-| -------------- | -------------------------- |
-| `news`         | Notícias                   |
-| `athletes`     | Atletas                    |
-| `matches`      | Jogos                      |
-| `competitions` | Competições                |
-| `standings`    | Classificação              |
-| `sponsors`     | Patrocinadores             |
-| `club`         | Informações institucionais |
+Jalde Contemporâneo: preto, jalde e marfim; Archivo como voz principal e Barlow
+Condensed para números e linguagem esportiva. Fotografia, tipografia e composição
+sustentam a identidade. Preservar os visuais aprovados, mobile, foco e reduced motion.
 
-Esses nomes não definem entidades, campos, relacionamentos, regras ou rotas finais.
-A modelagem depende de requisitos e fontes de dados aprovados.
+Não inventar notícias, atletas, partidas, estatísticas, história ou patrocinadores.
+Exemplos exigem autorização e identificação visível. Usar as fontes existentes;
+não duplicar datasets. Assets fornecidos não devem ser recriados ou recoloridos.
+O protótipo mantém `noindex, nofollow` e não declara oficialidade.
 
-## Fora desta etapa
+## Domínios
 
-Identidade visual final, Home, páginas de atletas, notícias, jogos, classificação,
-painel administrativo, autenticação, banco definitivo e conteúdo fictício.
+`src/features` organiza `home`, `news`, `athletes`, `matches`, `competitions`,
+`history`, `memberships`, `sponsors` e `club`. Classificação permanece reservada
+para necessidade futura, sem regras ou conteúdo inventados.
 
-## Próximas definições
+## Limites e próximas definições
 
-- Prioridade da primeira funcionalidade e seus critérios de aceite.
-- Conteúdo oficial e responsável editorial; direitos sobre imagens e arquivos.
-- Identidade visual e requisitos de acessibilidade do design system.
-- Modelo de dados e fluxos editoriais antes de criar migrations.
-- Perfis, permissões e requisitos de autenticação antes de implementar `/admin`.
+Sócios informa modalidades e encaminha o contato; não há associação online,
+checkout, pagamentos ou cadastro. Sem backend, banco, CMS, autenticação ou API
+esportiva nesta fase. Novas áreas e integrações dependem de escopo autorizado.
+
+Aguardar revisão visual humana e condições oficiais dos benefícios, calendário
+futuro confirmado, notícias verificadas e dados restantes de atletas/Base/Diretoria.
+Conteúdo, direitos de uso e fluxos editoriais devem ser definidos pelo responsável
+antes de novas integrações.

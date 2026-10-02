@@ -112,9 +112,6 @@ export default function SeasonMatchCard({ match }: { match: SeasonMatch }) {
             {resultLabels[result]}{" "}
             <span className={styles.resultContext}>do Bagé</span>
           </span>
-          <span className={styles.seasonMark} aria-hidden="true">
-            GEB / 2026
-          </span>
         </div>
         {(match.aggregate || match.shootout) && (
           <div className={styles.decider} aria-label="Decisão da semifinal">

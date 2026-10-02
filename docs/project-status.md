@@ -31,13 +31,21 @@ local `758389b`. História foi integrada de `origin/feature/historia`, commit
 `4c61111`, mantendo a implementação do colaborador; integração ainda sem push.
 `/historia` deixou de ser placeholder e apresenta scrollytelling e cronologia.
 
+Polimento pré-lançamento: logos de competição sobre fundo transparente, sem caixas;
+bloco de registro do protótipo/amistosos e inscrição decorativa removidos de Jogos.
+Último resultado do hero derivado de `matches2026`, compartilhando a ordenação da
+vitrine de temporada. Carteirinha selecionada oferece acesso direto aos detalhes,
+com foco e reduced motion; instruções e metadados funcionais ganharam legibilidade.
+404 em português na identidade atual, metadata neutra e indicador próprio de
+Arquivo na História, sem modificar a narrativa. Mudanças locais aguardam revisão humana.
+
 ## Etapas concluídas
 
 - Fundação técnica, tokens institucionais, Header, Footer e navegação desktop/mobile.
 - Escudo institucional, rotas placeholder e smoke tests.
 - Checkpoints publicados em `origin/main`.
 - Hero da Home: fotografia real do protótipo, manchete, próximo jogo e resultado
-  integrados, com conteúdo demonstrativo identificado.
+  integrados; notícia e próximo jogo demonstrativos identificados, último resultado real.
 - Archivo como fonte principal; Barlow Condensed para números e linguagem esportiva.
   Source Sans 3 removida da configuração.
 - Elenco profissional: 30 atletas da base pública reconciliada de 2026 fornecida
@@ -99,7 +107,8 @@ com validações finais. A publicação desta branch não significa merge em `ma
 
 ## Próxima etapa
 
-Próximo foco: revisão visual humana da Home-hub e do footer; consolidar Jogos 2026.
+Próximo foco: revisão humana do polimento pré-lançamento, incluindo Jogos,
+acesso aos detalhes de Sócios e 404; preservar as composições aprovadas.
 Aguardar dados verificados
 para Base, Diretoria e informações pessoais, além dos sete retratos restantes.
 Revisão humana e integrações continuam dependentes de autorização.
@@ -110,7 +119,7 @@ Revisão humana e integrações continuam dependentes de autorização.
   equivalentes passam, mas `pnpm check` é bloqueado pela divergência.
 - `next/font/google` exige rede no build quando as fontes precisam ser obtidas.
 - Aguardar os sete retratos restantes e dados individuais detalhados. O hero mantém
-  notícia e partidas demonstrativas identificadas; a vitrine de temporada usa Jogos 2026.
+  notícia e próximo jogo demonstrativos identificados; resultado e vitrine usam Jogos 2026.
 - Não há notícias verificadas nem acervo fotográfico histórico no repositório.
   Agora permanece compacto; a entrada histórica da Home utiliza a fundação já
   registrada em 5 de agosto de 1920 e o escudo. Notícias e Clube continuam placeholders.
@@ -147,11 +156,21 @@ assinatura, fotografia e tipografia como base da composição. Mobile desde o in
 
 ## Última validação conhecida
 
+Polimento pré-lançamento em 02/10/2026: Prettier, ESLint, Next typegen, TypeScript,
+build estático, 19 testes de domínio/smoke e `git diff --check` aprovados.
+`pnpm check` bloqueado por versão; executados os binários locais equivalentes.
+Build precisou de acesso à rede para obter as fontes já utilizadas.
+Home, Jogos, Sócios e 404 conferidos em 320, 390, 768, 1280 e 1440 px, sem overflow.
+Verificados acesso aos detalhes por teclado, foco no painel, mensagem específica
+do WhatsApp, retorno da 404 à Home e indicador Arquivo da História.
+Reduced motion tratado no controle de navegação; validar também em aparelho real.
+Assets e datasets esportivos preservados. Aguardar revisão humana, sem commit/push.
+
 Integração local de História: Prettier, ESLint, Next typegen, TypeScript, build
 estático, 18 testes de domínio/smoke e `git diff --check` aprovados. Home, Jogos,
 Elenco, Sócios e História abriram pela navegação compartilhada, sem erros de console.
 O único conflito de merge foi no smoke test: preservados Home/Sócios e os novos
-testes da narrativa histórica. Código de História idêntico ao commit `4c61111`;
+testes da narrativa histórica. Naquela validação, código de História idêntico ao commit `4c61111`;
 demais implementações e assets preservados. Aguardar revisão antes de push.
 
 Rodada Home/Sócios: Prettier, ESLint, Next typegen, TypeScript, build estático,

@@ -1,13 +1,14 @@
 # Arquitetura
 
-## Decisão inicial
+## Arquitetura vigente
 
 Uma aplicação Next.js 16 App Router, full-stack, em TypeScript strict, executada
 com Node.js 24 LTS e pnpm. Sem microserviços, monorepo ou backend separado.
 
 Server Components são o padrão. Client Components devem se limitar às fronteiras
 de interação. O conteúdo público deve priorizar geração estática/ISR; definir
-estratégias de revalidação a partir de dados reais. A rota técnica atual é estática.
+estratégias de revalidação a partir de dados reais. As páginas públicas atuais
+usam geração estática, incluindo Home, Jogos, Elenco, História e Sócios.
 
 ## Limites dos módulos
 
@@ -21,6 +22,12 @@ rotas (src/app) → casos de uso e regras (src/features)
 
 Rotas compõem interface, entrada e resposta. Componentes compartilhados ficam em
 `src/components`; os específicos ficam no domínio correspondente.
+
+As features existentes incluem Home, notícias, atletas, jogos, competições,
+história, sócios e patrocinadores. Datasets tipados de Jogos e Elenco são as fontes
+compartilhadas entre Home e páginas internas. As fronteiras Client cuidam de
+navegação, carrossel, countdown, filtros, capítulos da História e carteirinhas;
+não mova composição ou dados para o cliente apenas por efeitos visuais.
 
 O domínio deve ser independente de Next.js e dos provedores. Quando houver
 persistência, os casos de uso dependerão de contratos pequenos implementados por
@@ -42,7 +49,7 @@ fronteira, sem expor segredos em `NEXT_PUBLIC_*`.
 | Admin        | `/admin` na aplicação atual | Sem rotas ou funcionalidades                              |
 | CMS          | Painel próprio              | Sem CMS externo                                           |
 | Hospedagem   | Netlify Pro                 | Configuração de build preparada; sem publicação           |
-| Código       | GitHub privado              | Git local; remoto e regras ainda não configurados         |
+| Código       | GitHub privado              | Remoto configurado; colaboração em branches e PRs         |
 
 Na produção, escolher plano Neon baseado no uso esperado. Separar dados e
 credenciais de desenvolvimento, previews e produção. Implementar detalhes de
@@ -54,13 +61,15 @@ isso limitaria futuras funcionalidades de servidor e ISR.
 
 ## Estilos e qualidade
 
-Tailwind CSS 4 integrado por PostCSS. `src/styles/globals.css` contém apenas reset e
-tipografia de sistema neutra. Não há fontes remotas ou identidade visual definida.
-Tokens do clube e primitives funcionais entrarão conforme os requisitos visuais.
+Tailwind CSS 4 integrado por PostCSS; tokens institucionais em
+`src/styles/globals.css` e CSS Modules para composições das features. Direção Jalde
+Contemporâneo: preto, jalde e marfim. Archivo e Barlow Condensed usam `next/font/google`,
+com necessidade de rede durante builds que ainda precisem obter as fontes.
 
 TypeScript strict, `noUncheckedIndexedAccess` e `exactOptionalPropertyTypes`;
 ESLint flat config com Next.js/TypeScript; Prettier; CI e smoke HTTP do build.
-O runner nativo do Node evita uma dependência adicional de testes nesta fundação.
+O runner nativo do Node executa testes de domínio e smoke HTTP das rotas compiladas,
+sem dependência adicional. O protótipo mantém `noindex, nofollow`.
 
 ESLint 9.39.5 foi mantido porque `eslint-plugin-react`, trazido pela configuração
 oficial do Next.js 16.3.6, declara suporte até ESLint 9. O registro já marca essa

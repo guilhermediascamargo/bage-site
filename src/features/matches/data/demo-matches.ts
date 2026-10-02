@@ -1,5 +1,4 @@
 import type {
-  FinishedMatch,
   ScheduledMatch,
   TeamSummary,
 } from "@/features/matches/domain/match-summary";
@@ -23,17 +22,5 @@ export const demoNextMatch: ScheduledMatch | null = {
   time: "16h",
   venue: "Local demonstrativo",
   status: "scheduled",
-  contentStatus: "demo",
-};
-
-export const demoLastResult: FinishedMatch | null = {
-  id: "demo-last-result",
-  competition: "Competição demonstrativa",
-  season: "2026",
-  homeTeam: opponent,
-  awayTeam: bage,
-  date: "27/09/2026",
-  status: "finished",
-  score: { home: 1, away: 2 },
   contentStatus: "demo",
 };

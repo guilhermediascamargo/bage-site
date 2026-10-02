@@ -189,6 +189,19 @@ test(
       assert.match(html, /Conteúdo demonstrativo/);
       assert.match(html, /Próximo jogo/);
       assert.match(html, /Último jogo/);
+      const heroResult = html.match(
+        /<section[^>]*aria-labelledby="last-result-title"[\s\S]*?<\/section>/,
+      )?.[0];
+      assert.ok(heroResult);
+      const resultText = heroResult.replaceAll("<!-- -->", "");
+      assert.match(resultText, /GE Bagé: 4/);
+      assert.match(resultText, /Brasil de Pelotas: 1/);
+      assert.match(heroResult, /27\/09\/2026/);
+      assert.match(
+        html,
+        /alt="Jogadores do Bagé celebrando juntos em campo\."/,
+      );
+      assert.doesNotMatch(html, /Site oficial do Grêmio/);
       assert.match(html, /<article\b/);
       assert.doesNotMatch(
         html,
@@ -371,6 +384,10 @@ test(
         assert.match(main, /Escudo do União Frederiquense/);
         assert.doesNotMatch(
           main,
+          /Registro do protótipo|Amistosos|GEB \/ 2026/,
+        );
+        assert.doesNotMatch(
+          main,
           /dia a confirmar|Estádio a confirmar|Registro especial|Memória da temporada|De maio a setembro|Uma camisa|valor entre parênteses|Registro especial preservado/,
         );
         assert.match(main, /aria-pressed="true"/);
@@ -452,6 +469,10 @@ test(
     await t.test("rota inexistente retorna 404", async () => {
       const response = await fetch(`${baseUrl}/__foundation_missing_route__`);
       assert.equal(response.status, 404);
+      const page = await response.text();
+      assert.match(page, /Página não encontrada/);
+      assert.match(page, /Voltar ao início/);
+      assert.doesNotMatch(page, /This page could not be found/);
     });
   },
 );

@@ -2,11 +2,16 @@
 
 ## Escopo e verdade dos dados
 
-- Este repositório contém apenas a fundação técnica do Grêmio Esportivo Bagé.
-- Leia `README.md`, `docs/product.md` e `docs/architecture.md` antes de trabalhar.
+- Este repositório contém um protótipo não oficial do Grêmio Esportivo Bagé,
+  com Home-hub, Jogos, Elenco, História e Sócios já implementados.
+- Leia `README.md`, `docs/product.md`, `docs/architecture.md` e
+  `docs/project-status.md` antes de trabalhar; este último registra o estado atual.
 - Não invente notícias, atletas, partidas, resultados, patrocinadores ou história.
-- Não implemente novas áreas, identidade visual final ou integrações sem escopo
-  autorizado. A rota `/` atual é técnica e temporária, não é a Home do produto.
+- Conteúdo demonstrativo somente com autorização e identificação explícita.
+  A notícia e o próximo jogo da Home e os benefícios de Sócios ainda são exemplos.
+- Não implemente novas áreas ou integrações sem escopo autorizado. Preserve as
+  composições aprovadas e a direção Jalde Contemporâneo; Notícias e Clube ainda
+  são placeholders. Sócios não realiza associação online.
 
 ## Stack e dependências
 
@@ -41,8 +46,8 @@
 - Preserve strict mode; não silencie erros com `any`, desativação de lint ou flags
   de build. Faça mudanças pequenas e diretamente relacionadas à tarefa.
 - Execute `pnpm check` antes de entregar (formatação, lint, tipos, build e smoke).
-- `pnpm test` requer `pnpm build` prévio. Ao substituir a rota técnica, atualize
-  os smoke tests para o comportamento aprovado. Testes de domínio surgem com regras reais.
+- `pnpm test` requer `pnpm build` prévio. Ao alterar comportamentos aprovados,
+  atualize os smoke tests pertinentes. Preserve os testes de domínio existentes.
 - Nunca versione credenciais, `.env.local`, `node_modules` ou `.next`.
 - Trabalhe em branches e Pull Requests. Nunca faça push direto para `main`.
 - Não publique nem crie recursos pagos fora do escopo autorizado. GitHub privado;

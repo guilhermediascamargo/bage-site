@@ -1,10 +1,10 @@
-import type { FinishedMatch } from "@/features/matches/domain/match-summary";
+import type { SeasonMatch } from "@/features/matches/domain/season-match";
 
 export default function LastResult({
   match,
   prominent = false,
 }: {
-  match: FinishedMatch | null;
+  match: SeasonMatch | null;
   prominent?: boolean;
 }) {
   return (
@@ -21,28 +21,32 @@ export default function LastResult({
       {match ? (
         <>
           <p className="sr-only">
-            {match.homeTeam.name}: {match.score.home}. {match.awayTeam.name}:{" "}
-            {match.score.away}.
+            {match.homeTeam.name}: {match.homeScore}. {match.awayTeam.name}:{" "}
+            {match.awayScore}.
           </p>
           <div
             aria-hidden="true"
             className="my-4 flex min-w-0 items-center justify-between gap-3 lg:my-0 lg:justify-center lg:gap-8"
           >
             <span className="min-w-0 text-sm font-semibold wrap-anywhere sm:text-lg">
-              {match.homeTeam.shortName ?? match.homeTeam.name}
+              {match.homeTeam.name}
             </span>
             <span className="flex shrink-0 items-center gap-3 font-sport text-5xl leading-none font-semibold text-bage-jalde sm:text-6xl">
-              <span>{match.score.home}</span>
+              <span>{match.homeScore}</span>
               <span className="text-2xl text-foreground-secondary">—</span>
-              <span>{match.score.away}</span>
+              <span>{match.awayScore}</span>
             </span>
             <span className="min-w-0 text-sm font-semibold wrap-anywhere sm:text-lg">
-              {match.awayTeam.shortName ?? match.awayTeam.name}
+              {match.awayTeam.name}
             </span>
           </div>
           <p className="text-xs leading-relaxed text-foreground-secondary lg:text-right">
-            {match.competition} · {match.season}
-            {match.date && <span className="mt-1 block">{match.date}</span>}
+            {match.competition} · {match.month.slice(0, 4)}
+            {match.date && (
+              <span className="mt-1 block">
+                {match.date.split("-").reverse().join("/")}
+              </span>
+            )}
           </p>
         </>
       ) : (

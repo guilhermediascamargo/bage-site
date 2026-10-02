@@ -1,8 +1,9 @@
-# Grêmio Esportivo Bagé — fundação técnica
+# Grêmio Esportivo Bagé — protótipo do site
 
-Aplicação full-stack única, organizada como monólito modular. Esta etapa prepara
-ferramentas, estrutura e validação. Não contém Home de produto, conteúdo do clube,
-banco, autenticação ou painel administrativo.
+Aplicação única, organizada como monólito modular. Protótipo não oficial com
+Home-hub, Jogos, Elenco, História e Sócios. Notícias e Clube ainda são placeholders;
+não há banco, autenticação ou painel administrativo. Consulte o
+[estado do projeto](docs/project-status.md) para conteúdo demonstrativo e pendências.
 
 ## Requisitos
 
@@ -27,8 +28,8 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Abra [localhost:3000](http://localhost:3000). A rota `/` exibe somente uma mensagem
-técnica, sem dados ou identidade visual do clube, e está marcada como `noindex`.
+Abra [localhost:3000](http://localhost:3000). A rota `/` exibe a Home-hub;
+o protótipo mantém `noindex, nofollow`.
 
 Nenhuma variável de ambiente é necessária nesta etapa. `.env.example` documenta
 integrações futuras sem credenciais. Quando necessário, copie para `.env.local`
@@ -50,28 +51,31 @@ integrações futuras sem credenciais. Quando necessário, copie para `.env.loca
 
 O smoke test usa o runner nativo do Node 24, inicia `next start` em porta livre e
 valida HTML, CSS do Tailwind e resposta 404. Não exige navegador, credenciais ou
-serviços externos. Não há testes de regras de negócio porque elas ainda não existem.
+serviços externos. Os testes de domínio cobrem Jogos, Elenco, countdown e Sócios.
 
 ## Estrutura
 
 ```text
 .github/             CI, atualizações de dependências e template de PR
 docs/                Produto, arquitetura e operação
-public/              Arquivos públicos estáticos (vazio)
+public/              Escudo, fotos, marcas e demais assets fornecidos
 src/
-  app/               App Router: layout e rota técnica temporária
-  components/        Componentes compartilhados (reservado)
+  app/               App Router: composição das rotas e layout
+  components/        Header, Footer e demais compartilhados
   features/
-    news/            Domínios reservados, sem implementação
+    home/            Vitrines que reutilizam os domínios
+    news/            Notícia demonstrativa; conteúdo real aguardado
     athletes/
     matches/
     competitions/
     standings/
     sponsors/
+    history/
+    memberships/
     club/
   server/            Integrações privadas e adaptadores (reservado)
-  styles/            CSS global e futura base do design system
-tests/               Verificação HTTP de produção
+  styles/            CSS global, tokens e tipografia institucional
+tests/               Testes de domínio e smoke HTTP de produção
 ```
 
 ## Stack instalada

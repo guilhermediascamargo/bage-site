@@ -8,7 +8,7 @@ export default function CompetitionIdentity({
   name: keyof typeof competitionBrands;
 }) {
   return (
-    <span className={styles.identity}>
+    <span className={styles.identity} data-competition={name}>
       <Image
         src={competitionBrands[name]}
         alt=""

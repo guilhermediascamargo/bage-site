@@ -6,6 +6,7 @@ import { athleteGroups } from "@/features/athletes/domain/athlete-profile";
 import { matches2026 } from "@/features/matches/data/matches-2026";
 import {
   matchDateLabel,
+  recentSeasonMatches,
   resultForBage,
   seasonSummary,
 } from "@/features/matches/domain/season-helpers";
@@ -103,9 +104,7 @@ function Fixture({
 }
 
 export default function HomeHub() {
-  const recent = [...matches2026]
-    .sort((a, b) => (b.date ?? b.month).localeCompare(a.date ?? a.month))
-    .slice(0, 3);
+  const recent = recentSeasonMatches(matches2026);
   const summary = seasonSummary(matches2026);
 
   return (

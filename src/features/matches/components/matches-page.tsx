@@ -81,16 +81,6 @@ export default function MatchesSeasonPage() {
             content: <SeasonMatchCard match={match} />,
           }))}
         />
-        <aside className={styles.sourceNote} aria-label="Sobre os dados">
-          <strong>Registro do protótipo</strong>
-          <p>
-            <CompetitionIdentity name="Amistosos" />
-          </p>
-          <p>
-            Site não oficial. Este arquivo reúne os jogos da Copa FGF e da Série
-            A2 de 2026. Amistosos não integram o balanço da temporada.
-          </p>
-        </aside>
       </div>
     </main>
   );

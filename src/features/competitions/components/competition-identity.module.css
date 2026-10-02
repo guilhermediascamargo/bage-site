@@ -5,9 +5,11 @@
   vertical-align: middle;
 }
 .logo {
-  width: 2.5rem;
+  width: 2.8rem;
   height: 2.8rem;
   object-fit: contain;
-  padding: 0.2rem;
-  background: var(--color-bage-ivory);
+}
+.identity[data-competition="Copa FGF"] .logo {
+  width: 3.1rem;
+  height: 3.1rem;
 }

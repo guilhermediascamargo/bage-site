@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import {
   membershipFamilies,
   type MembershipPlan,
@@ -21,6 +21,19 @@ export default function MembershipCollection({
   function select(plan: MembershipPlan) {
     setSelectedId(plan.id);
     setFlippedId(flippedId === plan.id ? null : plan.id);
+  }
+
+  function showDetails(event: MouseEvent<HTMLAnchorElement>, panelId: string) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    event.preventDefault();
+    panel.focus({ preventScroll: true });
+    panel.scrollIntoView({
+      block: "start",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
   }
 
   return (
@@ -78,7 +91,7 @@ export default function MembershipCollection({
                           </span>
                           <span className={styles.cardBottom}>
                             <span className={styles.cardInstruction}>
-                              Virar / detalhes <span aria-hidden="true">↻</span>
+                              Virar cartão <span aria-hidden="true">↻</span>
                               <small>MODELO · SEM VALIDADE</small>
                             </span>
                             <span className={styles.price}>
@@ -106,6 +119,18 @@ export default function MembershipCollection({
                         </span>
                       </span>
                     </button>
+                    {active && (
+                      <a
+                        href={`#membership-details-${family.id}`}
+                        className={styles.detailsLink}
+                        aria-label={`Ver detalhes de ${plan.name}`}
+                        onClick={(event) =>
+                          showDetails(event, `membership-details-${family.id}`)
+                        }
+                      >
+                        Ver detalhes <span aria-hidden="true">↓</span>
+                      </a>
+                    )}
                   </li>
                 );
               })}
@@ -115,6 +140,7 @@ export default function MembershipCollection({
             className={styles.details}
             hidden={selected?.family !== family.id}
             aria-label="Detalhes da modalidade selecionada"
+            tabIndex={-1}
           >
             {selected?.family === family.id && (
               <>

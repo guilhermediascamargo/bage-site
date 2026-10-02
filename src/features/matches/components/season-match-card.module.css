@@ -48,6 +48,7 @@
 }
 .stadiumCaption small {
   display: block;
+  font-size: 0.75rem;
   color: var(--color-foreground-secondary);
 }
 .venueMarker {
@@ -63,7 +64,7 @@
   background: #0a0a09e6;
   color: var(--color-bage-ivory);
   border-left: 2px solid var(--color-bage-jalde);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -78,7 +79,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.65rem;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 .topline p {
@@ -163,7 +164,7 @@
 .finished {
   display: block;
   margin-top: 0.45rem;
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   color: var(--color-foreground-secondary);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -181,7 +182,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-bage-ivory);
 }
@@ -203,17 +204,12 @@
   color: var(--color-foreground-secondary);
   font-weight: 400;
 }
-.seasonMark {
-  color: #9b9788;
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-}
 .decider {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
   margin-top: 0.8rem;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   line-height: 1.5;
   color: var(--color-bage-jalde);
 }
@@ -227,12 +223,12 @@
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.75rem;
   margin-top: 0.85rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   line-height: 1.7;
   color: var(--color-foreground-secondary);
 }
 .goals h4 {
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   line-height: 2.2;

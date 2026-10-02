@@ -17,7 +17,21 @@ const {
   groupByMonth,
   matchDateLabel,
   goalBeneficiary,
+  recentSeasonMatches,
 } = require("../src/features/matches/domain/season-helpers.ts");
+
+test("últimos resultados usam a ordem cronológica sem alterar o dataset", () => {
+  const input = [...matches2026].reverse();
+  const original = [...input];
+  const latest = recentSeasonMatches(input, 1)[0];
+  assert.equal(latest.id, "a2-15");
+  assert.equal(latest.date, "2026-09-27");
+  assert.equal(latest.homeTeam.slug, "bage");
+  assert.equal(latest.awayTeam.slug, "brasil-pelotas");
+  assert.deepEqual([latest.homeScore, latest.awayScore], [4, 1]);
+  assert.deepEqual(input, original);
+  assert.deepEqual(recentSeasonMatches([]), []);
+});
 
 test("temporada fornecida: 23 jogos únicos, 12 em casa, 11 fora e balanço correto", () => {
   assert.equal(new Set(matches2026.map((match) => match.id)).size, 23);

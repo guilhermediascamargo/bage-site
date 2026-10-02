@@ -12,7 +12,9 @@ export default function HistoryProgress() {
   useEffect(() => {
     const story = document.getElementById("history-story");
     if (!story || !("IntersectionObserver" in window)) return;
-    const scenes = story.querySelectorAll<HTMLElement>("[data-history-scene]");
+    const scenes = story.querySelectorAll<HTMLElement>(
+      "[data-history-scene], #arquivo",
+    );
     // Discrete chapter changes only: no scroll listener or per-pixel React state.
     const observer = new IntersectionObserver(
       (entries) => {
@@ -22,7 +24,8 @@ export default function HistoryProgress() {
           scene.dataset.seen = "true";
           setChapter({
             year: scene.dataset.year ?? "",
-            label: scene.dataset.label ?? "",
+            label:
+              scene.id === "arquivo" ? "Arquivo" : (scene.dataset.label ?? ""),
           });
         }
       },
@@ -38,7 +41,7 @@ export default function HistoryProgress() {
         História <span aria-hidden="true">/</span>
       </a>
       <span className={styles.current} aria-hidden="true">
-        <b>{chapter.year}</b> {chapter.label}
+        {chapter.year && <b>{chapter.year}</b>} {chapter.label}
       </span>
       <a href="#arquivo">
         Consultar cronologia <span aria-hidden="true">↗</span>

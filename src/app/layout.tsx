@@ -22,7 +22,8 @@ const archivo = Archivo({
 
 export const metadata: Metadata = {
   title: "Grêmio Esportivo Bagé",
-  description: "Site oficial do Grêmio Esportivo Bagé.",
+  description:
+    "Site dedicado ao Grêmio Esportivo Bagé: elenco, jogos, história e informações do clube.",
   // Remover ao preparar as páginas públicas e sua política de indexação.
   robots: { index: false, follow: false },
 };
