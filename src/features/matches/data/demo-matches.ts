@@ -14,6 +14,7 @@ const opponent: TeamSummary = { name: "Adversário" };
 
 export const demoNextMatch: ScheduledMatch | null = {
   id: "demo-next-match",
+  kickoffAt: "2026-10-18T16:00:00-03:00",
   competition: "Competição demonstrativa",
   season: "2026",
   homeTeam: bage,

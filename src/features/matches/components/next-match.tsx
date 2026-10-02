@@ -1,5 +1,6 @@
 import TeamIdentity from "@/features/matches/components/team-identity";
 import type { ScheduledMatch } from "@/features/matches/domain/match-summary";
+import MatchCountdown from "./match-countdown";
 
 export default function NextMatch({ match }: { match: ScheduledMatch | null }) {
   return (
@@ -15,11 +16,17 @@ export default function NextMatch({ match }: { match: ScheduledMatch | null }) {
       </h2>
       {match ? (
         <>
+          {match.contentStatus === "demo" && (
+            <p className="mt-2 text-xs text-foreground-secondary">
+              Partida demonstrativa
+            </p>
+          )}
+          <MatchCountdown kickoffAt={match.kickoffAt} />
           <div className="mt-3 flex flex-wrap items-end gap-x-5 gap-y-2">
             <p
               className={
                 match.time
-                  ? "font-sport text-[clamp(5rem,7vw,8rem)] leading-none font-semibold tracking-tight"
+                  ? "font-sport text-4xl leading-none font-semibold tracking-tight"
                   : "py-4 text-xl"
               }
             >

@@ -1,0 +1,13 @@
+.identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  vertical-align: middle;
+}
+.logo {
+  width: 2.5rem;
+  height: 2.8rem;
+  object-fit: contain;
+  padding: 0.2rem;
+  background: var(--color-bage-ivory);
+}

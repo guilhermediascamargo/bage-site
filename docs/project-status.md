@@ -9,11 +9,24 @@ A abertura da Home foi reconstruída com hero fotográfico; “Bagé Agora” fo
 O profissional e seus 30 perfis individuais estão implementados; Base e Diretoria
 aguardam dados. As experiências aguardam revisão humana.
 A Home-hub foi ampliada com o conceito Fio Jalde, preservando o hero aprovado:
-Agora, rail de oito atletas, vitrine da temporada, entrada histórica e 12 patrocinadores.
+Agora, rail dos 30 atletas profissionais, vitrine da temporada, entrada histórica e 12 patrocinadores.
 O footer global passou a ter eixo central institucional, sem o BAGÉ monumental.
 A Home aguarda revisão por prints antes de qualquer novo checkpoint.
 `/jogos` apresenta os 23 jogos fornecidos de 2026, em timeline mensal com filtros
 por competição e mando, balanço da temporada e cards informativos sem rota individual.
+
+Rodada atual em `codex/home-socios-next`, originada no checkpoint `c596566`:
+rail com autoplay lento em desktop, loop visual, setas, arraste com mouse e scroll
+nativo no touch. Interação pausa o movimento; retomada é explícita. Reduced motion
+desativa autoplay. Logos locais de Copa FGF, Série A2 e Amistosos integradas sem
+alterar as estatísticas oficiais. Próximo jogo demonstrativo mantém identificação
+e agora tem countdown baseado em data/hora com fuso; sem confirmação ou após o
+horário previsto, usa estado neutro, sem simulação de live.
+`/socios` apresenta as 15 modalidades e valores fornecidos, em carteirinhas por
+família, com seleção/virada, detalhes e contato via WhatsApp. Benefícios são
+explicitamente **demonstrativos, não oficiais**. Não realiza associação online,
+pagamento ou cadastro. Sócios incluído na navegação compartilhada e no footer.
+Estas evoluções aguardam revisão visual humana; nenhum checkpoint desta rodada.
 
 ## Etapas concluídas
 
@@ -36,10 +49,12 @@ por competição e mando, balanço da temporada e cards informativos sem rota in
 
 Next.js com App Router, React, TypeScript strict, Tailwind CSS 4 e pnpm.
 `src/app` compõe rotas; `src/components` contém compartilhados; `src/features`
-organiza `matches`, `news` e `athletes`; `src/server` reserva integrações privadas.
+organiza os domínios, incluindo `matches`, `news`, `athletes`, `competitions` e
+`memberships`; `src/server` reserva integrações privadas.
 Server Components por padrão; Header e seletor das áreas do elenco são as
 fronteiras Client, junto aos filtros de Jogos, controles do rail da Home e navegação/
-voltar ao topo do footer. As vitrines, painéis, cards e perfis são compostos no servidor.
+voltar ao topo do footer, countdown e coleção interativa de Sócios. As rotas,
+vitrines e perfis continuam compostos no servidor.
 Protótipo com `noindex, nofollow`. Sem banco, autenticação, CMS, storage externo ou
 API esportiva.
 
@@ -126,6 +141,14 @@ identificados como demonstrativos. Não recolorir ou recriar o escudo. Jalde com
 assinatura, fotografia e tipografia como base da composição. Mobile desde o início.
 
 ## Última validação conhecida
+
+Rodada Home/Sócios: Prettier, ESLint, Next typegen, TypeScript, build estático,
+17 testes de domínio/smoke e `git diff --check` aprovados. Home e Sócios conferidas
+em 320, 390, 768, 1280 e 1440 px, sem overflow horizontal. Verificados os 30 links
+do rail, avanço automático, pausa, arraste e clique em perfil; as 15 seleções,
+viradas, painel, preços e mensagens do WhatsApp. Reduced motion tratado no código;
+swipe físico e preferência do sistema ainda merecem revisão em dispositivo real.
+Capturas de desktop/mobile preparadas para revisão humana.
 
 Home-hub: Prettier, ESLint, Next typegen, TypeScript, build estático e 14 testes
 (incluindo vitrines, links, 12 patrocinadores e os 30 perfis) aprovados.

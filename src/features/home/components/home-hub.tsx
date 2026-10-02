@@ -14,20 +14,9 @@ import type {
   SeasonTeam,
 } from "@/features/matches/domain/season-match";
 import { sponsors } from "@/features/sponsors/data/sponsors";
+import CompetitionIdentity from "@/features/competitions/components/competition-identity";
 import AthleteRail from "./athlete-rail";
 import styles from "./home-hub.module.css";
-
-// Seleção editorial de referências ao dataset; nenhum cadastro paralelo.
-const showcaseSlugs = [
-  "marcos-monitou",
-  "pedro-costa",
-  "julio-rusch",
-  "michel-henrique",
-  "enzo-de-leon",
-  "nicolas-marquez",
-  "vini-almeida",
-  "rafinha",
-];
 
 function Destination({
   href,
@@ -93,9 +82,9 @@ function Fixture({
       </div>
       <div className={styles.matchFoot}>
         <span>
-          {latest
-            ? `${match.competition} · ${match.phaseOrRound}`
-            : match.phaseOrRound}
+          {latest && <CompetitionIdentity name={match.competition} />}
+          {latest && " · "}
+          {match.phaseOrRound}
         </span>
         <span className={styles.result}>{result}</span>
       </div>
@@ -114,9 +103,6 @@ function Fixture({
 }
 
 export default function HomeHub() {
-  const selectedAthletes = showcaseSlugs.flatMap((slug) =>
-    professionalAthletes.filter((athlete) => athlete.slug === slug),
-  );
   const recent = [...matches2026]
     .sort((a, b) => (b.date ?? b.month).localeCompare(a.date ?? a.month))
     .slice(0, 3);
@@ -157,40 +143,16 @@ export default function HomeHub() {
           </div>
           <Destination href="/elenco">Ver elenco completo</Destination>
         </div>
-        <AthleteRail>
-          {selectedAthletes.map((athlete) => (
+        <AthleteRail
+          loopChildren={professionalAthletes.map((athlete) => (
             <li key={athlete.slug}>
-              <Link href={`/elenco/${athlete.slug}`} className={styles.athlete}>
-                <span className={styles.athletePlane} aria-hidden="true" />
-                {athlete.number !== undefined && (
-                  <span className={styles.athleteNumber}>
-                    <span className="sr-only">
-                      Número documentado em 2026:{" "}
-                    </span>
-                    {athlete.number}
-                  </span>
-                )}
-                {athlete.portraitImage && (
-                  <Image
-                    src={athlete.portraitImage.src}
-                    alt={athlete.portraitImage.alt}
-                    fill
-                    sizes="(min-width: 1024px) 330px, 270px"
-                    className={styles.portrait}
-                    style={{
-                      objectPosition:
-                        athlete.portraitImage.objectPosition ?? "center bottom",
-                    }}
-                  />
-                )}
-                <div className={styles.athleteIdentity}>
-                  <p>{athleteGroups[athlete.group].position}</p>
-                  <h3>{athlete.name}</h3>
-                  <span className={styles.athleteArrow} aria-hidden="true">
-                    ↗
-                  </span>
-                </div>
-              </Link>
+              <AthletePoster athlete={athlete} decorative />
+            </li>
+          ))}
+        >
+          {professionalAthletes.map((athlete) => (
+            <li key={athlete.slug}>
+              <AthletePoster athlete={athlete} />
             </li>
           ))}
         </AthleteRail>
@@ -283,5 +245,51 @@ export default function HomeHub() {
         </ul>
       </section>
     </div>
+  );
+}
+
+function AthletePoster({
+  athlete,
+  decorative = false,
+}: {
+  athlete: (typeof professionalAthletes)[number];
+  decorative?: boolean;
+}) {
+  return (
+    <Link
+      href={`/elenco/${athlete.slug}`}
+      className={styles.athlete}
+      tabIndex={decorative ? -1 : undefined}
+      draggable={false}
+    >
+      <span className={styles.athletePlane} aria-hidden="true" />
+      {athlete.number !== undefined && (
+        <span className={styles.athleteNumber}>
+          <span className="sr-only">Número documentado em 2026: </span>
+          {athlete.number}
+        </span>
+      )}
+      {athlete.portraitImage && (
+        <Image
+          src={athlete.portraitImage.src}
+          alt={athlete.portraitImage.alt}
+          fill
+          sizes="(min-width: 1024px) 330px, 270px"
+          className={styles.portrait}
+          draggable={false}
+          style={{
+            objectPosition:
+              athlete.portraitImage.objectPosition ?? "center bottom",
+          }}
+        />
+      )}
+      <div className={styles.athleteIdentity}>
+        <p>{athleteGroups[athlete.group].position}</p>
+        <h3>{athlete.name}</h3>
+        <span className={styles.athleteArrow} aria-hidden="true">
+          ↗
+        </span>
+      </div>
+    </Link>
   );
 }

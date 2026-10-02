@@ -17,6 +17,8 @@ type MatchDetails = {
 };
 
 export type ScheduledMatch = MatchDetails & {
+  // Instante ISO com fuso explícito; não deduzir a partir dos textos de exibição.
+  kickoffAt?: string;
   status: "scheduled";
   score?: never;
 };

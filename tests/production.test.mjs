@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import { setTimeout as delay } from "node:timers/promises";
 import test from "node:test";
 import "./matches.test.mjs";
+import "./home-memberships.test.mjs";
 
 const require = createRequire(import.meta.url);
 const {
@@ -214,8 +215,8 @@ test(
         const athleteLinks = [
           ...main.matchAll(/href="\/elenco\/([^"#?]+)"/g),
         ].map((match) => match[1]);
-        assert.equal(athleteLinks.length, 8);
-        assert.equal(new Set(athleteLinks).size, 8);
+        assert.equal(athleteLinks.length, 30);
+        assert.equal(new Set(athleteLinks).size, 30);
         for (const slug of athleteLinks)
           assert.ok(
             professionalAthletes.some((athlete) => athlete.slug === slug),
@@ -263,6 +264,34 @@ test(
       assert.match(response.headers.get("content-type"), /text\/css/);
       assert.ok((await response.text()).trim().length > 0);
     });
+
+    await t.test(
+      "Sócios: 15 modalidades, benefícios demonstrativos e contato externo",
+      async () => {
+        const response = await fetch(new URL("/socios", baseUrl));
+        assert.equal(response.status, 200);
+        const page = await response.text();
+        const main = page.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+        assert.ok(main);
+        assert.equal((main.match(/data-plan-id=/g) ?? []).length, 15);
+        assert.match(main, /Benefícios demonstrativos/);
+        assert.match(main, /não realiza associação online/);
+        assert.match(main, /wa\.me\/5553999561400/);
+        assert.doesNotMatch(main, /<form\b|checkout|Comprar|Contratar/);
+        assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+        assert.ok(html.includes('href="/socios"'));
+        for (const filename of ["copa-fgf", "serie-a2", "amistosos"]) {
+          assert.equal(
+            (
+              await fetch(
+                new URL(`/images/competitions/${filename}.png`, baseUrl),
+              )
+            ).status,
+            200,
+          );
+        }
+      },
+    );
 
     await t.test(
       "destinos da navegação respondem com placeholders",

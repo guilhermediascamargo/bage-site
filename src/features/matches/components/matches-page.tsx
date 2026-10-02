@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CompetitionIdentity from "@/features/competitions/components/competition-identity";
 import { matches2026, seasonVenues } from "../data/matches-2026";
 import { isBageHome, seasonSummary } from "../domain/season-helpers";
 import SeasonMatchCard from "./season-match-card";
@@ -30,7 +31,8 @@ export default function MatchesSeasonPage() {
             Competições oficiais do futebol profissional.
           </p>
           <p className={styles.heroCompetitions}>
-            Copa FGF <span aria-hidden="true">·</span> Série A2
+            <CompetitionIdentity name="Copa FGF" />
+            <CompetitionIdentity name="Série A2" />
           </p>
         </div>
         <div className={styles.heroPhoto}>
@@ -81,6 +83,9 @@ export default function MatchesSeasonPage() {
         />
         <aside className={styles.sourceNote} aria-label="Sobre os dados">
           <strong>Registro do protótipo</strong>
+          <p>
+            <CompetitionIdentity name="Amistosos" />
+          </p>
           <p>
             Site não oficial. Este arquivo reúne os jogos da Copa FGF e da Série
             A2 de 2026. Amistosos não integram o balanço da temporada.

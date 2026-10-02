@@ -38,13 +38,16 @@
   color: #d3d0c6;
 }
 .heroCompetitions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 1.75rem;
 }
-.heroCompetitions span {
-  padding: 0 0.7rem;
+.heroCompetitions > span {
   color: var(--color-bage-jalde);
 }
 .heroPhoto {

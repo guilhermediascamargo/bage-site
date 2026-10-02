@@ -106,21 +106,35 @@
   opacity: 0.35;
   cursor: default;
 }
+.railControls .playControl {
+  width: auto;
+  padding-inline: 0.75rem;
+  font: 600 0.7rem var(--font-archivo);
+  text-transform: uppercase;
+}
 .track {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(16rem, 24vw, 22rem);
+  display: flex;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--gutter);
   scrollbar-color: var(--color-bage-jalde) #272723;
   scrollbar-width: thin;
-  padding: 0 var(--gutter) 1.5rem;
+  padding-bottom: 1.5rem;
+  cursor: grab;
+  user-select: none;
+}
+.track:active {
+  cursor: grabbing;
+}
+.railSet {
+  display: flex;
+  flex: none;
+  padding-left: var(--gutter);
   list-style: none;
 }
-.track li {
-  scroll-snap-align: start;
+.railSet li {
+  flex: 0 0 clamp(16rem, 24vw, 22rem);
+  width: clamp(16rem, 24vw, 22rem);
   min-width: 0;
 }
 .athlete {
@@ -444,8 +458,9 @@
   .newsState {
     justify-self: start;
   }
-  .track {
-    grid-auto-columns: 78%;
+  .railSet li {
+    flex-basis: 78vw;
+    width: 78vw;
   }
   .athlete {
     height: 29rem;
