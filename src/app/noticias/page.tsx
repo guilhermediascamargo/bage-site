@@ -1,5 +1,9 @@
-import SectionPlaceholder from "@/components/site/section-placeholder";
+import type { Metadata } from "next";
+import NewsPage from "@/features/news/components/news-page";
 
-export default function NewsPage() {
-  return <SectionPlaceholder title="Notícias" />;
-}
+export const metadata: Metadata = {
+  title: "Notícias | Grêmio Esportivo Bagé",
+  description: "Notícias do Grêmio Esportivo Bagé: futebol e clube.",
+};
+
+export default NewsPage;

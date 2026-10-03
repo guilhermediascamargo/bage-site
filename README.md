@@ -1,7 +1,7 @@
 # Grêmio Esportivo Bagé — protótipo do site
 
 Aplicação única, organizada como monólito modular. Protótipo não oficial com
-Home-hub, Jogos, Elenco, História e Sócios. Notícias e Clube ainda são placeholders;
+Home-hub, Notícias, Jogos, Elenco, História, Sócios e Clube;
 não há banco, autenticação ou painel administrativo. Consulte o
 [estado do projeto](docs/project-status.md) para conteúdo demonstrativo e pendências.
 
@@ -51,7 +51,7 @@ integrações futuras sem credenciais. Quando necessário, copie para `.env.loca
 
 O smoke test usa o runner nativo do Node 24, inicia `next start` em porta livre e
 valida HTML, CSS do Tailwind e resposta 404. Não exige navegador, credenciais ou
-serviços externos. Os testes de domínio cobrem Jogos, Elenco, countdown e Sócios.
+serviços externos. Os testes de domínio cobrem Notícias, Jogos, Elenco, countdown e Sócios.
 
 ## Estrutura
 
@@ -64,7 +64,7 @@ src/
   components/        Header, Footer e demais compartilhados
   features/
     home/            Vitrines que reutilizam os domínios
-    news/            Notícia demonstrativa; conteúdo real aguardado
+    news/            Cadastro editorial único, listagem, matérias e destaques
     athletes/
     matches/
     competitions/

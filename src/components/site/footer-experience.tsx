@@ -1,4 +1,5 @@
 "use client";
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteNavigation } from "./site-navigation";
@@ -42,7 +43,10 @@ export default function FooterExperience() {
         onClick={returnToTop}
         aria-label="Voltar ao topo"
       >
-        <span aria-hidden="true">↑</span> Topo
+        <span aria-hidden="true">
+          <InterfaceArrow direction="up" />
+        </span>{" "}
+        Topo
       </button>
     </div>
   );

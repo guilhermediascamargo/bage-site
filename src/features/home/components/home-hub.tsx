@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -15,6 +16,9 @@ import type {
   SeasonTeam,
 } from "@/features/matches/domain/season-match";
 import { sponsors } from "@/features/sponsors/data/sponsors";
+import { newsArticles } from "@/features/news/data/news-articles";
+import { homeFeaturedNews } from "@/features/news/domain/news-helpers";
+import NewsHighlights from "@/features/news/components/news-highlights";
 import CompetitionIdentity from "@/features/competitions/components/competition-identity";
 import AthleteRail from "./athlete-rail";
 import styles from "./home-hub.module.css";
@@ -29,7 +33,9 @@ function Destination({
   return (
     <Link href={href} className={styles.destination}>
       {children}
-      <span aria-hidden="true">↗</span>
+      <span aria-hidden="true">
+        <InterfaceArrow direction="up-right" />
+      </span>
     </Link>
   );
 }
@@ -113,17 +119,16 @@ export default function HomeHub() {
         className={`${styles.section} ${styles.now}`}
         aria-labelledby="home-now"
       >
-        <div className={styles.nowHeading}>
-          <span className={styles.marker} aria-hidden="true">
-            01
-          </span>
-          <h2 id="home-now">Agora</h2>
-        </div>
-        <div className={styles.newsState}>
-          {/* A única notícia no repositório é demonstrativa e permanece no hero. */}
-          <p>Notícias aguardam conteúdo verificado.</p>
+        <div className={`${styles.sectionHeading} ${styles.nowHeading}`}>
+          <div>
+            <span className={styles.marker} aria-hidden="true">
+              01
+            </span>
+            <h2 id="home-now">Agora</h2>
+          </div>
           <Destination href="/noticias">Todas as notícias</Destination>
         </div>
+        <NewsHighlights articles={homeFeaturedNews(newsArticles)} />
       </section>
 
       <section
@@ -286,7 +291,7 @@ function AthletePoster({
         <p>{athleteGroups[athlete.group].position}</p>
         <h3>{athlete.name}</h3>
         <span className={styles.athleteArrow} aria-hidden="true">
-          ↗
+          <InterfaceArrow direction="up-right" />
         </span>
       </div>
     </Link>

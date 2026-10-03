@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -19,7 +20,10 @@ export default function NotFound() {
         href="/"
         className="mt-8 inline-flex min-h-11 w-fit items-center gap-6 border-b border-bage-jalde py-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bage-jalde"
       >
-        Voltar ao início <span aria-hidden="true">→</span>
+        Voltar ao início{" "}
+        <span aria-hidden="true">
+          <InterfaceArrow direction="right" />
+        </span>
       </Link>
     </main>
   );

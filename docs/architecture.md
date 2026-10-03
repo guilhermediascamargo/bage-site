@@ -8,7 +8,7 @@ com Node.js 24 LTS e pnpm. Sem microserviços, monorepo ou backend separado.
 Server Components são o padrão. Client Components devem se limitar às fronteiras
 de interação. O conteúdo público deve priorizar geração estática/ISR; definir
 estratégias de revalidação a partir de dados reais. As páginas públicas atuais
-usam geração estática, incluindo Home, Jogos, Elenco, História e Sócios.
+usam geração estática, incluindo Home, Notícias, Jogos, Elenco, História e Sócios.
 
 ## Limites dos módulos
 
@@ -26,8 +26,15 @@ Rotas compõem interface, entrada e resposta. Componentes compartilhados ficam e
 As features existentes incluem Home, notícias, atletas, jogos, competições,
 história, sócios e patrocinadores. Datasets tipados de Jogos e Elenco são as fontes
 compartilhadas entre Home e páginas internas. As fronteiras Client cuidam de
-navegação, carrossel, countdown, filtros, capítulos da História e carteirinhas;
+navegação, carrossel, countdown, filtros, capítulos da História, carteirinhas e
+experiência de Clube (vídeo, estados e hotspots em dataset tipado local);
 não mova composição ou dados para o cliente apenas por efeitos visuais.
+
+Notícias mantém um dataset editorial único em `src/features/news/data/news-articles.ts`.
+O corpo usa somente parágrafo, subtítulo e imagem; capas e imagens internas têm alt,
+crédito opcional e marcação provisória. Listagem, rotas estáticas por slug, curadoria
+da Home e relacionadas consomem esse cadastro, com um único template no servidor.
+Os fatos esportivos reutilizam Jogos; não há CMS, admin, banco ou IA editorial nesta V1.
 
 O domínio deve ser independente de Next.js e dos provedores. Quando houver
 persistência, os casos de uso dependerão de contratos pequenos implementados por

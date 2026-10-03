@@ -195,49 +195,68 @@
 .cardGrid > li {
   min-width: 0;
 }
-.card {
+.cardGrid > .detailsRow {
+  grid-column: 1 / -1;
+  padding-bottom: 0;
+}
+.detailsRow .details {
+  margin-top: 0;
+}
+.selectionTone {
   --surface: #1a1a18;
   --ink: #f4f1e8;
   --accent: #f2c500;
+  --selection-accent: var(--accent);
+}
+.card {
+  position: relative;
   display: block;
   width: 100%;
   aspect-ratio: 1.586;
   min-height: 13rem;
+  -webkit-perspective: 1200px;
   perspective: 1200px;
   border-radius: 0.65rem;
   background: transparent;
   text-align: left;
   cursor: pointer;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
 }
-.card[data-tone="premium"] {
+.selectionTone[data-tone="premium"] {
   --surface: #090907;
   --accent: #ddbe5d;
 }
-.card[data-tone="gold"] {
+.selectionTone[data-tone="gold"] {
   --surface: #cab36b;
   --ink: #16150f;
   --accent: #38301b;
+  --selection-accent: var(--surface);
 }
-.card[data-tone="silver"] {
+.selectionTone[data-tone="silver"] {
   --surface: #bfc1bb;
   --ink: #151713;
   --accent: #393f39;
+  --selection-accent: var(--surface);
 }
-.card[data-tone="bronze"] {
+.selectionTone[data-tone="bronze"] {
   --surface: #ad805e;
   --ink: #1c130d;
   --accent: #382317;
+  --selection-accent: var(--surface);
 }
-.card[data-tone="ivory"] {
+.selectionTone[data-tone="ivory"] {
   --surface: #e9e5d7;
   --ink: #151510;
   --accent: #796000;
+  --selection-accent: #d7be63;
 }
-.card[data-tone="olive"] {
+.selectionTone[data-tone="olive"] {
   --surface: #344134;
   --accent: #e2cb78;
 }
-.card[data-tone="slate"] {
+.selectionTone[data-tone="slate"] {
   --surface: #283c46;
   --accent: #e2cd81;
 }
@@ -246,7 +265,7 @@
   outline-offset: 6px;
 }
 .card[data-selected="true"] {
-  outline: 2px solid var(--color-bage-jalde);
+  outline: 2px solid var(--selection-accent);
   outline-offset: 5px;
 }
 .card[data-selected="true"]:focus-visible {
@@ -257,7 +276,9 @@
   display: block;
   width: 100%;
   height: 100%;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  transform: rotateY(0deg);
   transition: transform 350ms ease;
 }
 .card[data-flipped="true"] .cardInner {
@@ -271,7 +292,12 @@
   padding: 1.35rem;
   gap: 0.75rem;
   overflow: hidden;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
   border-radius: 0.65rem;
   color: var(--ink);
   background: var(--surface);
@@ -290,7 +316,18 @@
   border-left: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .front {
+  transform: rotateY(0deg) translateZ(1px);
   border-top: 3px solid var(--accent);
+}
+.card:not([data-flipped="true"]) .front,
+.card[data-flipped="true"] .back {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+  /* Só revelar a face de entrada após a metade da rotação; evita espelhamento
+     transitório mesmo quando o compositor não respeita a face traseira. */
+  transition: visibility 0s 175ms;
 }
 .cardHeader {
   display: flex;
@@ -363,7 +400,7 @@
   font: 500 0.75rem / 1 var(--font-archivo);
 }
 .back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(1px);
   gap: 0.5rem;
 }
 .demoTag {
@@ -416,8 +453,11 @@
   padding: 2rem;
   margin-top: 2rem;
   background: var(--color-bage-charcoal);
-  border-left: 2px solid var(--color-bage-jalde);
+  border-left: 3px solid var(--selection-accent);
   scroll-margin-top: 6rem;
+}
+.details .demoTag {
+  color: var(--selection-accent);
 }
 .details[hidden] {
   display: none;
@@ -479,6 +519,41 @@
   }
   .primaryLink:hover {
     background: #ffda36;
+  }
+}
+@media (min-width: 48rem) {
+  .cardGrid > li {
+    position: relative;
+    padding-bottom: 3.5rem;
+  }
+  .detailsLink {
+    position: absolute;
+    bottom: 0;
+    margin-top: 0;
+  }
+  .card[data-selected="true"] {
+    outline-width: 3px;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 16px #00000026;
+  }
+  /* Fora do plano 3D: atenua sem interferir na ocultação das faces no WebKit. */
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #0a0a09;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+  .family[data-focused="true"] .card[data-selected="false"]::after {
+    opacity: 0.22;
+  }
+  .family[data-focused="true"]
+    .card[data-selected="false"]:focus-visible::after {
+    opacity: 0;
   }
 }
 @media (max-width: 63.99rem) {
@@ -549,22 +624,26 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::after {
+    transition: none;
+  }
+  .card[data-selected="true"] {
+    transform: none;
+  }
   .cardInner {
     transition: none;
   }
   .card:not([data-flipped="true"]):hover .cardInner {
     transform: none;
   }
-  .card .face {
-    backface-visibility: visible;
-  }
   .card[data-flipped="true"] .cardInner,
-  .back {
+  .card .face {
     transform: none;
   }
-  .card[data-flipped="true"] .front,
-  .card:not([data-flipped="true"]) .back {
-    visibility: hidden;
+  .card:not([data-flipped="true"]) .front,
+  .card[data-flipped="true"] .back {
+    transition: none;
   }
   .heroCredential {
     transform: none;

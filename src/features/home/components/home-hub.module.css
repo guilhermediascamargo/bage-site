@@ -59,23 +59,10 @@
   transform: translate(3px, -3px);
 }
 .now {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
   border-top: 1px solid #f2c500;
-  padding-block: 3.5rem;
 }
 .nowHeading .marker {
   margin-bottom: 1rem;
-}
-.newsState {
-  justify-self: end;
-}
-.newsState p {
-  color: var(--color-foreground-secondary);
-  font-size: 0.875rem;
-  margin-bottom: 0.75rem;
 }
 .squad {
   background: var(--color-bage-charcoal);
@@ -451,12 +438,6 @@
     flex-direction: column;
     gap: 1.5rem;
     margin-bottom: 2rem;
-  }
-  .now {
-    grid-template-columns: 1fr;
-  }
-  .newsState {
-    justify-self: start;
   }
   .railSet li {
     flex-basis: 78vw;

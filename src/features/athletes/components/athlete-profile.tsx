@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -24,7 +25,10 @@ export default function AthleteProfile({ athlete }: { athlete: Profile }) {
             href="/elenco"
             className="inline-flex min-h-11 items-center gap-3 text-xs font-semibold tracking-widest uppercase hover:text-bage-jalde focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bage-jalde"
           >
-            <span aria-hidden="true">←</span> Elenco
+            <span aria-hidden="true">
+              <InterfaceArrow direction="left" />
+            </span>{" "}
+            Elenco
           </Link>
         </div>
         {!athlete.portraitImage && (

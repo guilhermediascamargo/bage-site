@@ -14,7 +14,11 @@ validações conhecidas ficam em `docs/project-status.md`.
 - História: scrollytelling e cronologia alternativa, preservando a narrativa integrada.
 - Sócios: 15 modalidades e preços fornecidos, carteirinhas, detalhes e contato com
   o clube pelo WhatsApp. Benefícios explicitamente demonstrativos, não oficiais.
-- Notícias e Clube permanecem placeholders. A notícia e o próximo jogo do hero
+- Notícias: dez matérias factuais de Futebol/Clube, listagem cronológica, template
+  único e três destaques curados no Agora. Fotos locais provisórias e créditos opcionais.
+- Clube: fachada, vídeo de entrada e interior interativo com camisa, três conquistas
+  e escudo; conteúdo local fornecido, painel único e entrada sem vídeo em reduced motion.
+- A notícia e o próximo jogo do hero
   são demonstrativos; o último resultado utiliza o dataset real de Jogos.
 
 ## Identidade e conteúdo
@@ -41,6 +45,6 @@ checkout, pagamentos ou cadastro. Sem backend, banco, CMS, autenticação ou API
 esportiva nesta fase. Novas áreas e integrações dependem de escopo autorizado.
 
 Aguardar revisão visual humana e condições oficiais dos benefícios, calendário
-futuro confirmado, notícias verificadas e dados restantes de atletas/Base/Diretoria.
+futuro confirmado, fotografias específicas das matérias e dados restantes de atletas/Base/Diretoria.
 Conteúdo, direitos de uso e fluxos editoriais devem ser definidos pelo responsável
 antes de novas integrações.

@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -45,7 +46,7 @@ export default function AthleteCard({ athlete }: { athlete: AthleteProfile }) {
         </p>
         <h3 className={styles.name}>{athlete.name}</h3>
         <span aria-hidden="true" className={styles.arrow}>
-          ↗
+          <InterfaceArrow direction="up-right" />
         </span>
       </div>
     </Link>

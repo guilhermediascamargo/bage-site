@@ -3,15 +3,16 @@
 ## Escopo e verdade dos dados
 
 - Este repositório contém um protótipo não oficial do Grêmio Esportivo Bagé,
-  com Home-hub, Jogos, Elenco, História e Sócios já implementados.
+  com Home-hub, Notícias, Jogos, Elenco, História, Sócios e Clube já implementados.
 - Leia `README.md`, `docs/product.md`, `docs/architecture.md` e
   `docs/project-status.md` antes de trabalhar; este último registra o estado atual.
 - Não invente notícias, atletas, partidas, resultados, patrocinadores ou história.
 - Conteúdo demonstrativo somente com autorização e identificação explícita.
-  A notícia e o próximo jogo da Home e os benefícios de Sócios ainda são exemplos.
+  A notícia do hero, o próximo jogo da Home e os benefícios de Sócios ainda são exemplos.
 - Não implemente novas áreas ou integrações sem escopo autorizado. Preserve as
-  composições aprovadas e a direção Jalde Contemporâneo; Notícias e Clube ainda
-  são placeholders. Sócios não realiza associação online.
+  composições aprovadas e a direção Jalde Contemporâneo.
+  Notícias usa cadastro editorial único e imagens de referência provisórias.
+  Sócios não realiza associação online.
 
 ## Stack e dependências
 

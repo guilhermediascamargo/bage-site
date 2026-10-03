@@ -7,6 +7,13 @@ import { setTimeout as delay } from "node:timers/promises";
 import test from "node:test";
 import "./matches.test.mjs";
 import "./home-memberships.test.mjs";
+import "./club.test.mjs";
+import {
+  newsArticles,
+  homeFeaturedNews,
+  latestNews,
+  relatedNews,
+} from "./news.test.mjs";
 
 const require = createRequire(import.meta.url);
 const {
@@ -224,7 +231,19 @@ test(
         ]) {
           assert.ok(main.includes(`id="${id}"`), id);
         }
-        assert.match(main, /Notícias aguardam conteúdo verificado/);
+        assert.doesNotMatch(main, /Notícias aguardam conteúdo verificado/);
+        const agora = main.match(
+          /<section[^>]*aria-labelledby="home-now"[\s\S]*?<\/section>/,
+        )?.[0];
+        assert.ok(agora);
+        assert.deepEqual(
+          [...agora.matchAll(/href="\/noticias\/([^"#?]+)"/g)].map(
+            (match) => match[1],
+          ),
+          homeFeaturedNews(newsArticles).map(({ slug }) => slug),
+        );
+        for (const article of homeFeaturedNews(newsArticles))
+          assert.ok(agora.includes(article.title));
         const athleteLinks = [
           ...main.matchAll(/href="\/elenco\/([^"#?]+)"/g),
         ].map((match) => match[1]);
@@ -306,22 +325,106 @@ test(
       },
     );
 
-    await t.test("Notícias e Clube preservam seus placeholders", async () => {
-      const routes = [
-        ["/noticias", "Notícias"],
-        ["/clube", "Clube"],
-      ];
+    await t.test(
+      "Clube: frame inicial e entrada visual substituem o placeholder",
+      async () => {
+        const routes = [["/clube", "Clube"]];
 
-      for (const [path, title] of routes) {
-        const response = await fetch(new URL(path, baseUrl));
-        assert.equal(response.status, 200, path);
+        for (const [path, title] of routes) {
+          const response = await fetch(new URL(path, baseUrl));
+          assert.equal(response.status, 200, path);
+          const page = await response.text();
+          assert.match(page, new RegExp(`<h1[^>]*>${title}</h1>`));
+          assert.doesNotMatch(page, /Esta página está em desenvolvimento\./);
+          assert.match(page, />Entrar[ <]/);
+          assert.match(page, /entry-poster\.webp/);
+          assert.doesNotMatch(
+            page,
+            /fachada-master\.webp|facade\.webp|club-detail-panel/,
+          );
+          assert.match(page, /<video\b[^>]*muted[^>]*playsInline/i);
+          assert.match(page, /preload="metadata"/);
+          assert.match(page, /src="\/images\/videos\/club\/entrance\.mp4"/);
+          assert.doesNotMatch(
+            page.match(/<video\b[^>]*>/)?.[0] ?? "",
+            /autoplay|controls|loop/i,
+          );
+          assert.equal((page.match(/<main\b/g) ?? []).length, 1);
+          assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+        }
+      },
+    );
+
+    await t.test(
+      "Notícias: listagem cronológica de dez matérias do cadastro central",
+      async () => {
+        const response = await fetch(new URL("/noticias", baseUrl));
+        assert.equal(response.status, 200);
         const page = await response.text();
-        assert.match(page, new RegExp(`<h1[^>]*>${title}</h1>`));
-        assert.match(page, /Esta página está em desenvolvimento\./);
+        const main = page.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+        assert.ok(main);
+        assert.match(main, /<h1[^>]*>Notícias<\/h1>/);
+        assert.doesNotMatch(main, /Esta página está em desenvolvimento/);
+        assert.deepEqual(
+          [...main.matchAll(/href="\/noticias\/([^"#?]+)"/g)].map(
+            (match) => match[1],
+          ),
+          latestNews(newsArticles).map(({ slug }) => slug),
+        );
         assert.equal((page.match(/<main\b/g) ?? []).length, 1);
+        assert.equal((main.match(/<h1\b/g) ?? []).length, 1);
         assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
-      }
-    });
+      },
+    );
+
+    await t.test(
+      "Notícias: dez rotas, template único, metadata, relacionadas e 404",
+      async () => {
+        for (const article of newsArticles) {
+          const response = await fetch(
+            new URL(`/noticias/${article.slug}`, baseUrl),
+          );
+          assert.equal(response.status, 200, article.slug);
+          const page = await response.text();
+          const main = page.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+          assert.ok(main);
+          assert.ok(main.includes(article.title));
+          assert.ok(main.includes(article.excerpt));
+          assert.ok(main.includes(`alt="${article.cover.alt}"`));
+          assert.ok(
+            page.includes(
+              `<title>${article.title} | Grêmio Esportivo Bagé</title>`,
+            ),
+          );
+          assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+          assert.equal((main.match(/<h1\b/g) ?? []).length, 1);
+          assert.equal(
+            (main.match(/<figure\b/g) ?? []).length,
+            1 + article.body.filter(({ type }) => type === "image").length,
+          );
+          assert.match(main, /Imagem de referência/);
+          assert.doesNotMatch(
+            main,
+            /Foto: desconhecido|Foto:|Esta página está em desenvolvimento/,
+          );
+          const related = main.match(
+            /<section[^>]*aria-labelledby="related-news"[\s\S]*?<\/section>/,
+          )?.[0];
+          assert.ok(related);
+          assert.deepEqual(
+            [...related.matchAll(/href="\/noticias\/([^"#?]+)"/g)].map(
+              (match) => match[1],
+            ),
+            relatedNews(newsArticles, article).map(({ slug }) => slug),
+          );
+        }
+        const missing = await fetch(
+          new URL("/noticias/slug-inexistente", baseUrl),
+        );
+        assert.equal(missing.status, 404);
+        assert.match(await missing.text(), /Página não encontrada/);
+      },
+    );
 
     await t.test(
       "História apresenta narrativa estática e cronologia",

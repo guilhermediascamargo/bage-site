@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Image from "next/image";
 import { membershipPlans } from "../data/membership-plans";
 import { membershipWhatsApp } from "../domain/membership-contact";
@@ -21,7 +22,10 @@ export default function MembershipPage() {
           </p>
           <div className={styles.heroActions}>
             <a href="#modalidades" className={styles.primaryLink}>
-              Ver modalidades <span aria-hidden="true">↓</span>
+              Ver modalidades{" "}
+              <span aria-hidden="true">
+                <InterfaceArrow direction="down" />
+              </span>
             </a>
             <a
               href={membershipWhatsApp()}
@@ -29,7 +33,10 @@ export default function MembershipPage() {
               rel="noopener noreferrer"
               className={styles.textLink}
             >
-              Falar com o clube <span aria-hidden="true">↗</span>
+              Falar com o clube{" "}
+              <span aria-hidden="true">
+                <InterfaceArrow direction="up-right" />
+              </span>
               <span className="sr-only"> (abre WhatsApp em nova aba)</span>
             </a>
           </div>
@@ -89,7 +96,10 @@ export default function MembershipPage() {
           rel="noopener noreferrer"
           className={styles.primaryLink}
         >
-          Falar com o clube <span aria-hidden="true">↗</span>
+          Falar com o clube{" "}
+          <span aria-hidden="true">
+            <InterfaceArrow direction="up-right" />
+          </span>
           <span className="sr-only"> (abre WhatsApp em nova aba)</span>
         </a>
       </section>

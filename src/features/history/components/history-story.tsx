@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -84,7 +85,10 @@ export default function HistoryStory() {
             clube distinto daquele que nasceria em 1920.
           </p>
           <a className={styles.textLink} href="#origens">
-            Percorra as origens <span aria-hidden="true">↓</span>
+            Percorra as origens{" "}
+            <span aria-hidden="true">
+              <InterfaceArrow direction="down" />
+            </span>
           </a>
         </div>
         <span className={styles.edgeNote} aria-hidden="true">
@@ -524,13 +528,22 @@ export default function HistoryStory() {
           </p>
           <nav aria-label="Continue pelo Bagé">
             <Link className={styles.textLink} href="/clube">
-              Clube <span aria-hidden="true">↗</span>
+              Clube{" "}
+              <span aria-hidden="true">
+                <InterfaceArrow direction="up-right" />
+              </span>
             </Link>
             <Link className={styles.textLink} href="/elenco">
-              Elenco <span aria-hidden="true">↗</span>
+              Elenco{" "}
+              <span aria-hidden="true">
+                <InterfaceArrow direction="up-right" />
+              </span>
             </Link>
             <Link className={styles.textLink} href="/noticias">
-              Notícias <span aria-hidden="true">↗</span>
+              Notícias{" "}
+              <span aria-hidden="true">
+                <InterfaceArrow direction="up-right" />
+              </span>
             </Link>
           </nav>
         </div>

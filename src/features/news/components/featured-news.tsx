@@ -1,3 +1,4 @@
+import InterfaceArrow from "@/components/ui/interface-arrow";
 import Link from "next/link";
 import type { NewsSummary } from "@/features/news/domain/news-summary";
 
@@ -18,7 +19,10 @@ export default function FeaturedNews({ news }: { news: NewsSummary | null }) {
         href="/noticias"
         className="mt-6 inline-flex min-h-11 items-center gap-5 border-b border-bage-ivory/50 py-2 text-sm font-semibold hover:text-bage-jalde focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bage-jalde"
       >
-        Acessar notícias <span aria-hidden="true">→</span>
+        Acessar notícias{" "}
+        <span aria-hidden="true">
+          <InterfaceArrow direction="right" />
+        </span>
       </Link>
     </article>
   );

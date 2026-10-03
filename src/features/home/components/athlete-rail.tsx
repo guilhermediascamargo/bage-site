@@ -1,4 +1,5 @@
 "use client";
+import InterfaceArrow from "@/components/ui/interface-arrow";
 
 import {
   useEffect,
@@ -177,7 +178,9 @@ export default function AthleteRail({
           disabled={edges.start}
           onClick={() => move(-1)}
         >
-          <span aria-hidden="true">←</span>
+          <span aria-hidden="true">
+            <InterfaceArrow direction="left" />
+          </span>
         </button>
         <button
           type="button"
@@ -186,7 +189,9 @@ export default function AthleteRail({
           disabled={edges.end}
           onClick={() => move(1)}
         >
-          <span aria-hidden="true">→</span>
+          <span aria-hidden="true">
+            <InterfaceArrow direction="right" />
+          </span>
         </button>
       </div>
       <div

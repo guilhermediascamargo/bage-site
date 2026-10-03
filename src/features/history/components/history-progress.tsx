@@ -1,4 +1,5 @@
 "use client";
+import InterfaceArrow from "@/components/ui/interface-arrow";
 
 import { useEffect, useState } from "react";
 import styles from "./history-story.module.css";
@@ -44,7 +45,10 @@ export default function HistoryProgress() {
         {chapter.year && <b>{chapter.year}</b>} {chapter.label}
       </span>
       <a href="#arquivo">
-        Consultar cronologia <span aria-hidden="true">↗</span>
+        Consultar cronologia{" "}
+        <span aria-hidden="true">
+          <InterfaceArrow direction="up-right" />
+        </span>
       </a>
     </nav>
   );
