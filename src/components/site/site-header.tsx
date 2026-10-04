@@ -63,8 +63,50 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
         className="pointer-events-none absolute top-0 h-8 w-px"
       />
       <header
+        id="site-header"
         className={`pointer-events-none sticky top-0 z-50 h-20 shrink-0 lg:h-24 ${pathname === "/" ? "-mb-20 lg:-mb-24" : ""}`}
       >
+        <noscript>
+          <style>{`
+            #site-header {
+              height: auto;
+              margin-bottom: 0;
+              position: relative;
+            }
+            #site-menu-button { display: none; }
+            #site-navigation { display: block; }
+            @media (max-width: 63.99rem) {
+              #site-header > div {
+                background: var(--color-bage-black);
+                border-color: var(--color-bage-charcoal);
+              }
+              #site-header > div > div {
+                height: auto;
+                min-height: 5rem;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                padding-block: 0.75rem;
+              }
+              #site-navigation {
+                position: static;
+                flex-basis: 100%;
+                max-height: none;
+                overflow: visible;
+                border: 0;
+                padding: 0;
+              }
+              #site-navigation ul {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+              }
+              #site-navigation li:last-child { grid-column: 2; }
+              #site-navigation a {
+                justify-content: center;
+                padding-inline: 0.25rem;
+                font-size: 0.75rem;
+              }
+            }
+          `}</style>
+        </noscript>
         <div
           className={`pointer-events-auto border-b transition-colors duration-200 motion-reduce:transition-none ${overPhoto ? "border-bage-ivory/20 bg-transparent" : "border-bage-charcoal bg-bage-black/98"}`}
         >
@@ -91,6 +133,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
             </Link>
 
             <button
+              id="site-menu-button"
               ref={menuButtonRef}
               type="button"
               aria-expanded={menuOpen}

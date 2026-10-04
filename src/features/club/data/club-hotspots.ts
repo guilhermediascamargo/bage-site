@@ -1,10 +1,10 @@
 import type { ClubHotspot } from "../domain/club-hotspot";
 
-// Caminhos reais dos assets fornecidos, preservados sem renomear ou editar.
+// Imagens fornecidas e vídeo derivado; os três arquivos originais foram preservados.
 export const clubMedia = {
   entryPoster: "/images/club/entry-poster.webp",
   interior: "/images/club/interior.webp",
-  entrance: "/images/videos/club/entrance.mp4",
+  entrance: "/images/videos/club/entrance-720p.mp4",
 } as const;
 
 export const clubHotspots = [

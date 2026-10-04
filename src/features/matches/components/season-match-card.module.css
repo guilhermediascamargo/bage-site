@@ -257,7 +257,17 @@
 }
 @media (max-width: 359px) {
   .scoreboard {
+    position: relative;
     gap: 0.3rem;
+    padding-bottom: 2.2rem;
+  }
+  .finished {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.65rem;
+    margin-top: 0;
+    text-align: center;
   }
 }
 @media (min-width: 640px) {

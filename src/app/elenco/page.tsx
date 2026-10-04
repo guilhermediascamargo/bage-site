@@ -4,7 +4,11 @@ import ProfessionalSquad from "@/features/athletes/components/professional-squad
 import YouthSquad from "@/features/athletes/components/youth-squad";
 import FootballLeadership from "@/features/club/components/football-leadership";
 
-export const metadata: Metadata = { title: "Elenco | Grêmio Esportivo Bagé" };
+export const metadata: Metadata = {
+  title: "Elenco | Grêmio Esportivo Bagé",
+  description:
+    "Conheça os 30 atletas do elenco profissional do Grêmio Esportivo Bagé e seus perfis neste protótipo não oficial.",
+};
 
 export default function SquadPage() {
   return (

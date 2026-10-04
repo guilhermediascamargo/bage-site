@@ -68,7 +68,7 @@ export default function MembershipPage() {
           <h2 id="memberships-title">Modalidades</h2>
           <span>15 opções</span>
         </div>
-        <aside
+        <section
           className={styles.notice}
           aria-label="Aviso sobre benefícios demonstrativos"
         >
@@ -78,7 +78,7 @@ export default function MembershipPage() {
             pelas condições oficiais do clube. Este site não realiza associação
             online. A adesão acontece diretamente com o clube.
           </p>
-        </aside>
+        </section>
         <MembershipCollection plans={membershipPlans} />
       </section>
 

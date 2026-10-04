@@ -16,6 +16,7 @@ import {
 } from "./news.test.mjs";
 
 const require = createRequire(import.meta.url);
+const { clubMedia } = require("../src/features/club/data/club-hotspots.ts");
 const {
   professionalAthletes,
 } = require("../src/features/athletes/data/professional-athletes.ts");
@@ -298,6 +299,32 @@ test(
     });
 
     await t.test(
+      "favicon institucional e navegação sem JavaScript",
+      async () => {
+        const response = await fetch(new URL("/favicon.ico", baseUrl));
+        assert.equal(response.status, 200);
+        const icon = new Uint8Array(await response.arrayBuffer());
+        assert.deepEqual([...icon.slice(0, 4)], [0, 0, 1, 0]);
+        assert.ok(icon.length > 100);
+        assert.match(html, /<link[^>]*rel="icon"[^>]*href="\/favicon.ico/);
+        const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0];
+        assert.ok(header);
+        assert.match(header, /<noscript>/);
+        assert.equal((header.match(/<nav\b/g) ?? []).length, 1);
+        for (const route of [
+          "/",
+          "/noticias",
+          "/jogos",
+          "/elenco",
+          "/socios",
+          "/historia",
+          "/clube",
+        ])
+          assert.ok(header.includes(`href="${route}"`), route);
+      },
+    );
+
+    await t.test(
       "Sócios: 15 modalidades, benefícios demonstrativos e contato externo",
       async () => {
         const response = await fetch(new URL("/socios", baseUrl));
@@ -308,6 +335,7 @@ test(
         assert.equal((main.match(/data-plan-id=/g) ?? []).length, 15);
         assert.match(main, /Benefícios demonstrativos/);
         assert.match(main, /não realiza associação online/);
+        assert.doesNotMatch(main, /<aside\b/);
         assert.match(main, /wa\.me\/5553999561400/);
         assert.doesNotMatch(main, /<form\b|checkout|Comprar|Contratar/);
         assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
@@ -343,8 +371,8 @@ test(
             /fachada-master\.webp|facade\.webp|club-detail-panel/,
           );
           assert.match(page, /<video\b[^>]*muted[^>]*playsInline/i);
-          assert.match(page, /preload="metadata"/);
-          assert.match(page, /src="\/images\/videos\/club\/entrance\.mp4"/);
+          assert.match(page, /<video\b[^>]*preload="none"/);
+          assert.ok(page.includes(`src="${clubMedia.entrance}"`));
           assert.doesNotMatch(
             page.match(/<video\b[^>]*>/)?.[0] ?? "",
             /autoplay|controls|loop/i,

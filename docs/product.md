@@ -16,8 +16,10 @@ validações conhecidas ficam em `docs/project-status.md`.
   o clube pelo WhatsApp. Benefícios explicitamente demonstrativos, não oficiais.
 - Notícias: dez matérias factuais de Futebol/Clube, listagem cronológica, template
   único e três destaques curados no Agora. Fotos locais provisórias e créditos opcionais.
-- Clube: fachada, vídeo de entrada e interior interativo com camisa, três conquistas
-  e escudo; conteúdo local fornecido, painel único e entrada sem vídeo em reduced motion.
+- Clube: primeiro frame, vídeo de entrada e interior interativo com camisa, três
+  conquistas e escudo. Até 1023 px, seletores identificados e painel completo abaixo
+  da cena; desktop mantém pontos e cards conectados à imagem. Conteúdo local
+  fornecido, painel único e entrada sem vídeo em reduced motion.
 - A notícia e o próximo jogo do hero
   são demonstrativos; o último resultado utiliza o dataset real de Jogos.
 
@@ -31,6 +33,18 @@ Não inventar notícias, atletas, partidas, estatísticas, história ou patrocin
 Exemplos exigem autorização e identificação visível. Usar as fontes existentes;
 não duplicar datasets. Assets fornecidos não devem ser recriados ou recoloridos.
 O protótipo mantém `noindex, nofollow` e não declara oficialidade.
+
+### Perspectiva editorial do Ba-Gua
+
+O Guarany pode e deve ser mencionado quando necessário para contextualizar fatos
+históricos, partidas e acontecimentos do G.E. Bagé. O site deve sempre manter
+perspectiva jalde-negra: o Bagé é o protagonista. Evitar conteúdo que desenvolva,
+promova ou dê protagonismo institucional ao rival. Ao mesmo tempo, manter linguagem
+factual, respeitosa e não depreciativa.
+
+Essa regra orienta o foco da narrativa, sem ocultar derrotas, alterar placares ou
+apagar contexto histórico. Preservar a identificação dos adversários, o primeiro
+Ba-Gua, o 7–0 e a composição real do combinado que enfrentou o Santos em 1957.
 
 ## Domínios
 

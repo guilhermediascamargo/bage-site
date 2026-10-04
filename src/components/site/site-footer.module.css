@@ -14,6 +14,7 @@
   text-decoration: none;
   font-size: clamp(1.25rem, 2vw, 1.75rem);
   font-weight: 700;
+  line-height: 1.5;
   letter-spacing: -0.03em;
 }
 .crest {
@@ -35,6 +36,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  min-width: 44px;
   position: relative;
   font-size: 0.75rem;
   font-weight: 600;
@@ -92,10 +94,23 @@
   font-size: 0.7rem;
 }
 @media (max-width: 35rem) {
+  /* Colunas estáveis evitam novas linhas durante a troca da fonte. */
   .navigation {
-    gap: 0.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0.5rem 0.25rem;
     max-width: 20rem;
     margin: auto;
+  }
+  .navigation li {
+    grid-column: span 3;
+  }
+  .navigation li:nth-child(n + 5) {
+    grid-column: span 4;
+  }
+  .navigation a {
+    width: 100%;
+    justify-content: center;
   }
   .legal {
     flex-direction: column;

@@ -4,6 +4,8 @@ import { clubHotspots } from "@/features/club/data/club-hotspots";
 
 export const metadata: Metadata = {
   title: "Clube | Grêmio Esportivo Bagé",
+  description:
+    "Explore a identidade e as conquistas do Grêmio Esportivo Bagé em uma experiência interativa deste protótipo não oficial.",
 };
 
 export default function ClubPage() {

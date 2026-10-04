@@ -33,6 +33,14 @@
 .result {
   min-width: 0;
 }
+@media (max-width: 63.99rem) and (max-height: 44rem) {
+  .photograph {
+    min-height: max(34rem, 92svh);
+  }
+  .editorial {
+    padding-top: 10rem;
+  }
+}
 @media (min-width: 40rem) {
   .editorial {
     padding-inline: 3rem;

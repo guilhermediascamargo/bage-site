@@ -77,12 +77,12 @@ test("Clube: primeiro frame, interior e vídeo locais existem, sem fachada antig
   assert.equal(clubMedia.interior, "/images/club/interior.webp");
 });
 
-test("Clube: cards e conectores ficam dentro da cena nas cinco larguras", () => {
-  for (const width of [320, 390, 768, 1280, 1440]) {
+test("Clube: cards e conectores ficam dentro da cena nas larguras desktop", () => {
+  for (const width of [1024, 1280, 1440, 1600, 1920]) {
     const scene = { width, height: (width * 9) / 16 };
     const card = {
-      width: width < 768 ? width * 0.76 : 300,
-      height: width < 768 ? scene.height * 0.6 - 8 : 260,
+      width: 300,
+      height: 260,
     };
     for (const point of clubHotspots) {
       const result = placeClubCard(point, scene, card);
@@ -95,7 +95,6 @@ test("Clube: cards e conectores ficam dentro da cena nas cinco larguras", () => 
       assert.ok(
         result.endY >= result.top && result.endY <= result.top + card.height,
       );
-      if (width < 768) assert.equal(result.top, scene.height - card.height - 8);
     }
   }
   const point = { ...clubHotspots[0], position: { x: 95, y: 50 } };

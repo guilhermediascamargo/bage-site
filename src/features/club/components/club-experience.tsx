@@ -21,6 +21,7 @@ import styles from "./club-experience.module.css";
 
 type Phase = "entry" | "entering" | "interior";
 type CardPosition = ReturnType<typeof placeClubCard>;
+const mobileLayout = "(max-width: 63.99rem)";
 
 export default function ClubExperience({
   hotspots,
@@ -122,7 +123,9 @@ export default function ClubExperience({
   const closeCard = useCallback(() => {
     cardFocusPendingRef.current = false;
     if (selectedId)
-      buttonsRef.current.get(selectedId)?.focus({ preventScroll: true });
+      buttonsRef.current.get(selectedId)?.focus({
+        preventScroll: !window.matchMedia(mobileLayout).matches,
+      });
     setSelectedId(null);
     setCardPosition(null);
   }, [selectedId]);
@@ -132,7 +135,11 @@ export default function ClubExperience({
     if (!active || !sceneRef.current || !cardRef.current) return;
     const scene = sceneRef.current;
     const card = cardRef.current;
-    const measure = () =>
+    const measure = () => {
+      if (window.matchMedia(mobileLayout).matches) {
+        setCardPosition(null);
+        return;
+      }
       setCardPosition(
         placeClubCard(
           active,
@@ -140,6 +147,7 @@ export default function ClubExperience({
           { width: card.offsetWidth, height: card.offsetHeight },
         ),
       );
+    };
     const observer = new ResizeObserver(measure);
     observer.observe(scene);
     observer.observe(card);
@@ -151,8 +159,17 @@ export default function ClubExperience({
   }, [active]);
 
   useEffect(() => {
-    if (active && cardPosition && cardFocusPendingRef.current) {
+    const mobile = window.matchMedia(mobileLayout).matches;
+    if (active && (mobile || cardPosition) && cardFocusPendingRef.current) {
       closeRef.current?.focus({ preventScroll: true });
+      if (mobile)
+        cardRef.current?.scrollIntoView({
+          block: "nearest",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
+            ? "instant"
+            : "smooth",
+        });
       cardFocusPendingRef.current = false;
     }
   }, [active, cardPosition]);
@@ -195,6 +212,14 @@ export default function ClubExperience({
         focusFrame = requestAnimationFrame(() => {
           if (phaseRef.current !== phase || !target.isConnected) return;
           target.focus({ preventScroll: true });
+          if (phase === "entry" && window.matchMedia(mobileLayout).matches)
+            sceneRef.current?.scrollIntoView({
+              block: "start",
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+                .matches
+                ? "instant"
+                : "smooth",
+            });
           moveFocusRef.current = false;
         });
       }
@@ -248,102 +273,120 @@ export default function ClubExperience({
 
   return (
     <div className={styles.experience} data-phase={phase}>
-      <div ref={sceneRef} className={styles.scene}>
-        <Image
-          src={clubMedia.entryPoster}
-          alt="Porta de entrada do espaço do Grêmio Esportivo Bagé, no primeiro frame do vídeo."
-          aria-hidden={phase !== "entry"}
-          fill
-          sizes="(max-width: 1600px) 100vw, 1600px"
-          preload
-          unoptimized
-          className={styles.image}
-        />
-        <video
-          ref={videoRef}
-          src={clubMedia.entrance}
-          poster={clubMedia.entryPoster}
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          tabIndex={-1}
-          className={styles.video}
-          data-visible={videoReady && phase !== "entry"}
-          onPlaying={() => {
-            if (phaseRef.current !== "entering") return;
-            clearWait();
-            setVideoReady(true);
-          }}
-          onWaiting={waitForVideo}
-          onEnded={finish}
-          onPause={finish}
-          onError={() => {
-            setVideoReady(false);
-            finish();
-          }}
-          onAbort={() => {
-            setVideoReady(false);
-            finish();
-          }}
-        />
-        {interiorRequested && (
+      <div className={styles.stage}>
+        <div ref={sceneRef} className={styles.scene}>
           <Image
-            src={clubMedia.interior}
-            alt="Interior do espaço do Bagé com camisa no manequim, taças na vitrine e escudo na parede."
-            aria-hidden={phase !== "interior"}
+            src={clubMedia.entryPoster}
+            alt="Porta de entrada do espaço do Grêmio Esportivo Bagé, no primeiro frame do vídeo."
+            aria-hidden={phase !== "entry"}
             fill
             sizes="(max-width: 1600px) 100vw, 1600px"
-            loading="eager"
-            unoptimized
-            className={`${styles.image} ${styles.interior}`}
-            data-visible={interiorVisible && interiorReady}
-            onLoad={() => setInteriorReady(true)}
-            onTransitionEnd={(event) => {
-              if (event.propertyName === "opacity" && interiorVisible)
-                setVideoReady(false);
+            preload
+            className={styles.image}
+          />
+          <video
+            ref={videoRef}
+            src={clubMedia.entrance}
+            muted
+            playsInline
+            preload="none"
+            aria-hidden="true"
+            tabIndex={-1}
+            className={styles.video}
+            data-visible={videoReady && phase !== "entry"}
+            onPlaying={() => {
+              if (phaseRef.current !== "entering") return;
+              clearWait();
+              setVideoReady(true);
+            }}
+            onWaiting={waitForVideo}
+            onEnded={finish}
+            onPause={finish}
+            onError={() => {
+              setVideoReady(false);
+              finish();
+            }}
+            onAbort={() => {
+              setVideoReady(false);
+              finish();
             }}
           />
-        )}
-        {/* O vídeo permanece atrás da imagem durante o blend; não há frame preto intermediário. */}
-        {phase !== "interior" && (
-          <button
-            ref={entryRef}
-            type="button"
-            className={`${styles.sceneAction} ${styles.entryAction}`}
-            data-visible={phase === "entry"}
-            aria-hidden={phase !== "entry"}
-            inert={phase !== "entry"}
-            tabIndex={phase === "entry" ? 0 : -1}
-            onPointerEnter={prepare}
-            onFocus={prepare}
-            onClick={enter}
-          >
-            Entrar <InterfaceArrow direction="right" />
-          </button>
-        )}
-        {phase === "entering" && (
-          <button
-            ref={skipRef}
-            type="button"
-            className={`${styles.sceneAction} ${styles.skipAction}`}
-            onClick={finish}
-          >
-            Pular entrada <InterfaceArrow direction="right" />
-          </button>
-        )}
+          {interiorRequested && (
+            <Image
+              src={clubMedia.interior}
+              alt="Interior do espaço do Bagé com camisa no manequim, taças na vitrine e escudo na parede."
+              aria-hidden={phase !== "interior"}
+              fill
+              sizes="(max-width: 1600px) 100vw, 1600px"
+              loading="eager"
+              className={`${styles.image} ${styles.interior}`}
+              data-visible={interiorVisible && interiorReady}
+              onLoad={() => setInteriorReady(true)}
+              onTransitionEnd={(event) => {
+                if (event.propertyName === "opacity" && interiorVisible)
+                  setVideoReady(false);
+              }}
+            />
+          )}
+          {/* O vídeo permanece atrás da imagem durante o blend; não há frame preto intermediário. */}
+          {phase !== "interior" && (
+            <button
+              ref={entryRef}
+              type="button"
+              className={`${styles.sceneAction} ${styles.entryAction}`}
+              data-visible={phase === "entry"}
+              aria-hidden={phase !== "entry"}
+              inert={phase !== "entry"}
+              tabIndex={phase === "entry" ? 0 : -1}
+              onPointerEnter={prepare}
+              onFocus={prepare}
+              onClick={enter}
+            >
+              Entrar <InterfaceArrow direction="right" />
+            </button>
+          )}
+          {phase === "entering" && (
+            <button
+              ref={skipRef}
+              type="button"
+              className={`${styles.sceneAction} ${styles.skipAction}`}
+              onClick={finish}
+            >
+              Pular entrada <InterfaceArrow direction="right" />
+            </button>
+          )}
+          {phase === "interior" && interiorReady && (
+            <>
+              {highlighted && (
+                <div
+                  aria-hidden="true"
+                  className={styles.spotlight}
+                  style={{
+                    left: `${hotspots.find((point) => point.id === highlighted)?.position.x}%`,
+                    top: `${hotspots.find((point) => point.id === highlighted)?.position.y}%`,
+                  }}
+                />
+              )}
+              <div className={styles.sceneMarkers} aria-hidden="true">
+                {hotspots.map((item) => (
+                  <span
+                    key={item.id}
+                    className={styles.sceneMarker}
+                    data-active={highlighted === item.id}
+                    style={{
+                      left: `${item.position.x}%`,
+                      top: `${item.position.y}%`,
+                    }}
+                  >
+                    {item.index.split(" / ")[0]}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
         {phase === "interior" && interiorReady && (
           <>
-            {highlighted && (
-              <div
-                aria-hidden="true"
-                className={styles.spotlight}
-                style={{
-                  left: `${hotspots.find((point) => point.id === highlighted)?.position.x}%`,
-                  top: `${hotspots.find((point) => point.id === highlighted)?.position.y}%`,
-                }}
-              />
-            )}
             <div
               className={styles.points}
               ref={pointsRef}
@@ -351,6 +394,7 @@ export default function ClubExperience({
               role="group"
               aria-label="Explore o espaço"
             >
+              <p className={styles.mobileInstruction}>Explore o espaço</p>
               {hotspots.map((item) => (
                 <button
                   key={item.id}
@@ -388,7 +432,15 @@ export default function ClubExperience({
                     }
                   }}
                 >
-                  <span aria-hidden="true" />
+                  <span className={styles.marker} aria-hidden="true">
+                    <span className={styles.markerNumber}>
+                      {item.index.split(" / ")[0]}
+                    </span>
+                  </span>
+                  <span className={styles.hotspotLabel}>
+                    <span>{item.title}</span>
+                    {item.meta && <span>{item.meta}</span>}
+                  </span>
                 </button>
               ))}
             </div>
