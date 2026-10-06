@@ -15,7 +15,7 @@ export const clubHotspots = [
     eyebrow: "Identidade jalde-negra",
     title: "Camisa principal 2026",
     description:
-      "A camisa principal da temporada leva o jalde e o preto, cores que acompanham a identidade do Grêmio Esportivo Bagé. No espaço do clube, o uniforme aparece como uma das expressões mais visíveis da tradição jalde-negra.",
+      "A camisa principal de 2026 leva o jalde e o preto, cores do clube.",
     position: { x: 25.6, y: 48 },
     placement: "right",
     cardOffsetY: 25,
@@ -28,7 +28,7 @@ export const clubHotspots = [
     title: "1x Campeão Gaúcho",
     meta: "1925",
     description:
-      "Conquista estadual de 1925, uma das maiores glórias da história do Grêmio Esportivo Bagé.",
+      "O título estadual de 1925 foi conquistado pelos Imortais de 25.",
     position: { x: 13.5, y: 37 },
     placement: "right",
     cardOffsetY: -20,
@@ -43,7 +43,7 @@ export const clubHotspots = [
     title: "1x Campeão da Copa Governador do Estado",
     meta: "1974",
     description:
-      "Título conquistado em 1974, marcando mais um momento importante da trajetória jalde-negra.",
+      "A conquista de 1974 teve um Ba-Gua decisivo na fase por pontos, sem final única.",
     position: { x: 13.5, y: 56 },
     placement: "right",
     cardOffsetY: -35,
@@ -57,8 +57,6 @@ export const clubHotspots = [
     eyebrow: "Conquistas",
     title: "3x Campeão Gaúcho da 2ª Divisão",
     meta: "1964 · 1982 · 1985",
-    description:
-      "Títulos conquistados em 1964, 1982 e 1985, reforçando a tradição competitiva do Bagé no futebol gaúcho.",
     position: { x: 13.5, y: 73 },
     placement: "right",
     cardOffsetY: 20,
@@ -71,9 +69,8 @@ export const clubHotspots = [
     kind: "crest",
     eyebrow: "Desde 1920",
     title: "Símbolo Jalde-Negro",
-    meta: "Grêmio Esportivo Bagé · Bagé/RS",
     description:
-      "Fundado em 5 de agosto de 1920, o Grêmio Esportivo Bagé carrega no escudo as iniciais GEB e as cores que identificam o Jalde-Negro. Um símbolo de pertencimento, tradição e ligação com a cidade de Bagé.",
+      "O escudo reúne as iniciais GEB e as cores jalde e preta. O clube foi fundado em 5 de agosto de 1920.",
     position: { x: 49.2, y: 39 },
     placement: "bottom",
     href: "/historia",

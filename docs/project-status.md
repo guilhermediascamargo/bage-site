@@ -1,6 +1,6 @@
 # Estado do projeto
 
-Atualizado em 04/10/2026. Protótipo não oficial do Grêmio Esportivo Bagé, com
+Atualizado em 05/10/2026. Protótipo não oficial do Grêmio Esportivo Bagé, com
 identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
 
 ## Base e rodada atual
@@ -8,9 +8,11 @@ identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
 - Checkpoint oficial: `origin/codex/news-system`, commit
   `d9f4d3ab7b49b021dc354b4d2b1d44766463d814`
   (`feat: checkpoint news club and site refinements`).
-- Polimento implementado em `feature/final-mobile-polish`, criada exatamente desse
-  commit após fetch e confirmação de working tree limpo. Sem merge ou trabalho
-  direto nas branches compartilhadas.
+- Rodada de pré-apresentação em `feature/pre-presentation-polish`, no worktree
+  isolado de revisão, criada exatamente de
+  `b4c8f16833d1e9954db159472020a852da0ea104` (`feature/final-mobile-polish`).
+  O checkpoint `d9f4d3a` é ancestral dessa base; sem merge ou alterações nas
+  branches compartilhadas. Mudanças desta rodada ainda locais para revisão.
 - Home, Jogos, Elenco, História, Sócios, Notícias, Clube e 404 estão implementados.
   A rodada preserva as composições aprovadas e corrige problemas concretos.
 
@@ -31,8 +33,10 @@ identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
   Pedra Moura identificada como atual; sem simular acervo histórico.
 - Sócios: 15 modalidades, preços fornecidos, virada, detalhes e WhatsApp. Benefícios
   demonstrativos, sem associação online ou pagamento.
-- Notícias: 10 matérias, três destaques no Agora e quatro imagens internas. Fotos
-  de referência provisórias, sem simular fotos das partidas ou inventar créditos.
+- Notícias: 10 matérias com capas editoriais em `/images/news/` e três destaques
+  no Agora, derivados do mesmo cadastro. Anúncio de Michel Henrique (11/05)
+  substitui a matéria de estreia de 13/05. Créditos omitidos até confirmação;
+  imagens internas provisórias removidas e dois assets de reserva preservados.
 - Clube: primeiro frame, entrada em vídeo e interior com cinco pontos (camisa,
   três conquistas e escudo), conteúdo fornecido e CTA para História.
 - Ba-Gua: regra permanente em `AGENTS.md`, com texto completo em `docs/product.md`.
@@ -42,11 +46,20 @@ identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
 
 ## Polimento final
 
-- Clube até 1023 px: cena 16:9 com marcadores numerados, seletores identificados de
-  pelo menos 60 px e painel completo abaixo da cena. Duas colunas de seletores a
-  partir de 600 px. Conteúdo sem rolagem interna; ano, título, descrição e CTA visíveis.
-  Desktop mantém pontos sobre a imagem, cards e conectores. Fechar, ESC, clique
-  fora, troca, retorno de foco/entrada, vídeo, pular, blend e fallback preservados.
+- Clube: cinco botões sobre a cena 16:9 e um único card contextual interno. Até
+  1023 px, overlay inferior com scroll interno; desktop conserva posicionamento
+  próximo do objeto e conector. Sem seletores ou painel abaixo da imagem. Fechar,
+  ESC, clique fora, troca, retorno de foco/entrada, vídeo, pular, blend e fallback
+  preservados. Textos enxutos, sem repetir clube/cidade no card do escudo.
+- História: indicador escolhe a última área visível na ordem da narrativa, evitando
+  voltar ao capítulo anterior ao expandir o Arquivo.
+- Editorial: removidas repetições e frases de preenchimento em Notícias, História,
+  Elenco e Sócios; fatos históricos e dados esportivos preservados. A notícia do
+  Ba-Gua identifica o clássico e o rival, sem alterar nomes funcionais ou resultados.
+- Sócios: motivo abstrato de abelha em SVG monocromático no verso dos 15 cartões,
+  decorativo e sem representar arte oficial do mascote. Não aparece no Clube.
+  Preços, benefícios demonstrativos, flip protegido para WebKit e painel único
+  após a linha selecionada permanecem.
 - Home em telas baixas: altura e espaço superior do hero ajustados para comunicar
   manchete e CTA na primeira viewport curta, sem alterar a composição normal.
 - Jogos até 359 px: estado da partida abaixo do placar libera espaço para nomes
@@ -84,14 +97,33 @@ Otimização e métricas locais não equivalem a testes em 4G ou produção.
 
 ## Ambiente e arquitetura
 
-Node.js 24.21.0 e pnpm 11.19.0, coerentes com `package.json`. Next.js 16.3.6,
+O projeto declara Node.js 24 e pnpm 11.19.0. Nesta revisão, o ambiente usa Node.js
+24.18.0 e pnpm 11.25.0; validação por executáveis locais, sem mudar dependências
+ou a versão declarada. Next.js 16.3.6,
 React 19.3.0, TypeScript strict e Tailwind CSS 4. App Router e monólito modular:
 `src/app` compõe rotas; `src/components` compartilha UI; `src/features` organiza
 os domínios; `src/server` reserva integrações privadas. Server Components por
 padrão; fronteiras Client limitadas às interações existentes. Sem novas dependências.
 `next/font/google` pode exigir rede ao obter fontes no build.
 
-## Validações desta rodada
+## Validações da pré-apresentação
+
+`pnpm check` permanece bloqueado pelo mismatch 11.19.0/11.25.0. Os executáveis
+locais equivalentes passaram, sem alterar dependências:
+Prettier, ESLint sem warnings, Next typegen, TypeScript, build com 50 páginas e
+32 testes de domínio/smoke HTTP aprovados. A expectativa da legenda de História
+foi atualizada para preservar a distinção entre foto atual e o ano de 1977.
+
+Revisão no navegador Chromium em 320, 390, 768, 1280 e 1440 px: nove rotas
+principais/artigo/perfil, sem overflow horizontal ou imagens quebradas nas
+45 combinações. Os cinco hotspots foram abertos em cada largura: um único card,
+sempre dentro da cena. Conferidos flip, detalhes e foco de Sócios, filtros
+combinados, menu, cronologia/indicador, pular/voltar à entrada e ESC.
+Reduced motion e fallback também revisados no código e nos testes de domínio;
+esta rodada não executou Safari/iPhone físico nem emulação de WebKit.
+Capturas ficam fora do Git, no diretório de visualizações do Codex.
+
+## Validação anterior (commit-base do Rogério)
 
 `pnpm check` passou: Prettier, ESLint sem warnings, Next typegen, TypeScript,
 build padrão com Turbopack (50 páginas geradas) e 32 testes de domínio/smoke HTTP.
@@ -111,6 +143,9 @@ Capturas, roteiros e relatórios ficam fora do Git, em
 
 ## Pendências reais
 
+- Desenvolvimento: avisos de LCP para o primeiro retrato do Elenco e o escudo
+  apareceram em algumas navegações. Não há falha de carregamento; avaliar prioridade
+  com medição de performance antes de mudar a estratégia de imagens.
 - Antes da apresentação: revisão humana final e validação em Safari/iPhone físico;
   emulação Chromium não substitui WebKit/aparelho real.
 - Material oficial: fotos específicas e créditos das matérias, acervo histórico,

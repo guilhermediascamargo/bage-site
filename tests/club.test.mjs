@@ -29,7 +29,7 @@ test("Clube: cinco pontos únicos, camisa, três taças e escudo em coordenadas 
     for (const value of Object.values(point.position)) {
       assert.ok(Number.isFinite(value) && value >= 0 && value <= 100);
     }
-    for (const field of ["id", "eyebrow", "title", "description"]) {
+    for (const field of ["id", "eyebrow", "title"]) {
       assert.equal(typeof point[field], "string");
       assert.ok(point[field].trim().length > 0);
     }
@@ -77,15 +77,17 @@ test("Clube: primeiro frame, interior e vídeo locais existem, sem fachada antig
   assert.equal(clubMedia.interior, "/images/club/interior.webp");
 });
 
-test("Clube: cards e conectores ficam dentro da cena nas larguras desktop", () => {
-  for (const width of [1024, 1280, 1440, 1600, 1920]) {
+test("Clube: cards e conectores ficam dentro da cena em mobile, tablet e desktop", () => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440, 1920]) {
     const scene = { width, height: (width * 9) / 16 };
     const card = {
-      width: 300,
-      height: 260,
+      width: width < 1024 ? Math.min(width * 0.76, 384) : 300,
+      height: width < 1024 ? scene.height * 0.75 - 8 : 260,
     };
     for (const point of clubHotspots) {
       const result = placeClubCard(point, scene, card);
+      if (width < 1024)
+        assert.equal(result.top, scene.height - card.height - 8);
       assert.ok(result.left >= 8 && result.top >= 8);
       assert.ok(result.left + card.width <= scene.width - 8);
       assert.ok(result.top + card.height <= scene.height - 8);

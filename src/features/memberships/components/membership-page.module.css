@@ -649,3 +649,16 @@
     transform: none;
   }
 }
+
+.beeMark {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--accent);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.back .demoTag,
+.backTitle {
+  padding-right: 2.75rem;
+}

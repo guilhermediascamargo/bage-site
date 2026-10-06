@@ -114,12 +114,6 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
-.openingTop > p {
-  text-align: right;
-  font-size: 0.7rem;
-  line-height: 1.7;
-  color: #b8b5ac;
-}
 .openingYear {
   position: absolute;
   z-index: -1;
@@ -146,15 +140,6 @@
 }
 .openingCopy .smallProse {
   margin: 1.25rem 0 1.5rem;
-}
-.edgeNote {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 4rem;
-  color: #b8b5ac;
-  font-size: 0.65rem;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
 }
 .origins {
   background: #f4f1e8;
@@ -205,13 +190,6 @@
 }
 .julho .originRule {
   background: #0a0a09;
-}
-.convergeNote {
-  text-align: center;
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px solid #0a0a092c;
-  font-size: 0.8rem;
 }
 .foundation {
   padding-top: 4rem;
@@ -494,14 +472,6 @@
 .paperResult span {
   color: #625f55;
 }
-.paperFoot {
-  font-size: 0.65rem;
-  line-height: 1.6;
-  color: #625f55;
-  margin-top: 3rem;
-  border-top: 1px solid #0a0a0940;
-  padding-top: 1rem;
-}
 .resilience {
   display: grid;
   grid-template-columns: 1fr 1.25fr;
@@ -641,11 +611,6 @@
   gap: 3rem;
   margin-top: 4rem;
 }
-.presentBottom > p {
-  color: #b8b5ac;
-  font-size: 0.95rem;
-  line-height: 1.8;
-}
 .presentBottom nav {
   display: grid;
   gap: 0.5rem;
@@ -694,12 +659,6 @@
   font-size: 0.85rem;
   line-height: 1.8;
   max-width: 78ch;
-}
-.archiveNote {
-  font-size: 0.75rem;
-  line-height: 1.8;
-  color: #b8b5ac;
-  max-width: 85ch;
 }
 
 /* Native scroll timelines enhance a readable, fully visible static composition. */
@@ -818,9 +777,6 @@
     min-height: calc(100svh - 7rem);
     padding-top: 1.5rem;
   }
-  .openingTop > p {
-    font-size: 0.6rem;
-  }
   .openingYear {
     top: 0.45em;
     font-size: 66vw;
@@ -834,9 +790,6 @@
   }
   .openingCopy .prose {
     max-width: 26ch;
-  }
-  .edgeNote {
-    display: none;
   }
   .originGrid {
     grid-template-columns: 1fr;
@@ -855,9 +808,6 @@
     width: 100%;
     margin-top: 1.5rem;
     height: 0.3rem;
-  }
-  .convergeNote {
-    margin-top: 3rem;
   }
   .foundation {
     padding-bottom: 0;

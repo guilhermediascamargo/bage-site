@@ -78,7 +78,7 @@
   font-weight: 600;
   font-size: clamp(8rem, 20vw, 19rem);
   line-height: 1;
-  color: #f4f1e85c;
+  color: rgb(10 10 9 / 15%);
   letter-spacing: -0.035em;
 }
 .heroVenue {

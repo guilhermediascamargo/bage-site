@@ -220,7 +220,7 @@ test(
 
     await t.test(
       "Home-hub: vitrines, fontes compartilhadas e 12 patrocinadores",
-      () => {
+      async () => {
         const main = html.match(/<main\b[\s\S]*?<\/main>/)?.[0];
         assert.ok(main);
         for (const id of [
@@ -279,7 +279,24 @@ test(
         const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0];
         assert.ok(footer);
         assert.match(footer, /Voltar ao topo/);
-        assert.match(footer, /Protótipo não oficial/);
+        assert.ok(
+          footer.includes(
+            "Protótipo não oficial · desenvolvido para apresentação ao Grêmio Esportivo Bagé.",
+          ),
+        );
+        assert.match(footer, /Conceito e desenvolvimento/);
+        assert.match(footer, /alt="Cancha Digital"/);
+        assert.ok(footer.includes("cancha-digital-horizontal-white.png"));
+        assert.doesNotMatch(footer, /©|Todos os direitos reservados/);
+        assert.doesNotMatch(main, /cancha-digital/);
+        const signature = await fetch(
+          new URL(
+            "/images/brand/cancha/cancha-digital-horizontal-white.png",
+            baseUrl,
+          ),
+        );
+        assert.equal(signature.status, 200);
+        assert.equal(signature.headers.get("content-type"), "image/png");
         assert.doesNotMatch(footer, /Estádio Pedra Moura|Fundado em|wordmark/);
       },
     );
@@ -333,6 +350,8 @@ test(
         const main = page.match(/<main\b[\s\S]*?<\/main>/)?.[0];
         assert.ok(main);
         assert.equal((main.match(/data-plan-id=/g) ?? []).length, 15);
+        assert.equal((main.match(/data-membership-bee=/g) ?? []).length, 15);
+        assert.doesNotMatch(main, /🐝/);
         assert.match(main, /Benefícios demonstrativos/);
         assert.match(main, /não realiza associação online/);
         assert.doesNotMatch(main, /<aside\b/);
@@ -419,6 +438,7 @@ test(
           assert.ok(main.includes(article.title));
           assert.ok(main.includes(article.excerpt));
           assert.ok(main.includes(`alt="${article.cover.alt}"`));
+          assert.ok(main.includes(encodeURIComponent(article.cover.src)));
           assert.ok(
             page.includes(
               `<title>${article.title} | Grêmio Esportivo Bagé</title>`,
@@ -430,7 +450,10 @@ test(
             (main.match(/<figure\b/g) ?? []).length,
             1 + article.body.filter(({ type }) => type === "image").length,
           );
-          assert.match(main, /Imagem de referência/);
+          assert.doesNotMatch(
+            main,
+            /Imagem de referência|Foto ilustrativa|Imagem provisória/,
+          );
           assert.doesNotMatch(
             main,
             /Foto: desconhecido|Foto:|Esta página está em desenvolvimento/,
@@ -446,11 +469,14 @@ test(
             relatedNews(newsArticles, article).map(({ slug }) => slug),
           );
         }
-        const missing = await fetch(
-          new URL("/noticias/slug-inexistente", baseUrl),
-        );
-        assert.equal(missing.status, 404);
-        assert.match(await missing.text(), /Página não encontrada/);
+        for (const slug of [
+          "slug-inexistente",
+          "bage-estreia-na-copa-fgf-com-empate-diante-do-farroupilha",
+        ]) {
+          const missing = await fetch(new URL("/noticias/" + slug, baseUrl));
+          assert.equal(missing.status, 404);
+          assert.match(await missing.text(), /Página não encontrada/);
+        }
       },
     );
 
@@ -488,7 +514,7 @@ test(
         assert.match(main, /Copa Cícero Soares/);
         assert.match(main, /Combinado de/);
         assert.match(main, /Bagé 7, Guarany 0/);
-        assert.match(main, /fotografia atual do acervo/);
+        assert.match(main, /fotografia atual, não de 1977/);
         assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
         assert.doesNotMatch(
           main,

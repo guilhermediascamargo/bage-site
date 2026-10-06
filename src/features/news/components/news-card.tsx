@@ -17,10 +17,14 @@ export default function NewsCard({
   return (
     <article className={`${styles.card} ${styles[variant]}`}>
       <Link href={`/noticias/${article.slug}`} className={styles.cardLink}>
-        <div className={styles.cardImage}>
+        <div className={styles.cardImage} data-fit={article.cover.objectFit}>
           <Image
             src={article.cover.src}
             alt={article.cover.alt}
+            style={{
+              objectPosition: article.cover.objectPosition,
+              objectFit: article.cover.objectFit,
+            }}
             fill
             sizes={
               variant === "lead"

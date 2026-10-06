@@ -69,13 +69,13 @@ test("News: dez matérias válidas, slugs únicos, imagens locais e blocos compl
       } else assert.ok(block.text.trim());
     }
     for (const image of images) {
-      assert.ok(image.src.startsWith("/images/"));
+      assert.ok(image.src.startsWith("/images/news/"));
       assert.ok(image.alt.trim());
       assert.ok(
         existsSync(new URL("../public" + image.src, import.meta.url)),
         image.src,
       );
-      assert.equal(image.provisional, true);
+      assert.notEqual(image.provisional, true);
       assert.equal(
         image.credit,
         undefined,
@@ -83,7 +83,7 @@ test("News: dez matérias válidas, slugs únicos, imagens locais e blocos compl
       );
     }
   }
-  assert.equal(internalImages, 4);
+  assert.equal(internalImages, 0);
 });
 
 test("News: curadoria única 1/2/3 e ordenação sem alterar o cadastro", () => {
@@ -104,7 +104,7 @@ test("News: curadoria única 1/2/3 e ordenação sem alterar o cadastro", () => 
   );
   const ordered = latestNews(newsArticles);
   assert.equal(ordered[0].publishedAt, "2026-09-28");
-  assert.equal(ordered.at(-1).publishedAt, "2026-05-13");
+  assert.equal(ordered.at(-1).publishedAt, "2026-05-11");
   for (let i = 1; i < ordered.length; i++)
     assert.ok(ordered[i - 1].publishedAt >= ordered[i].publishedAt);
   assert.deepEqual(
@@ -157,11 +157,68 @@ test("News: balanço e autores dos gols preservam a fonte esportiva", () => {
     "bage-fecha-temporada-com-vitoria-no-pedra-moura",
   );
   assert.equal(article.publishedAt, match.date);
+  const derbyArticle = getNewsBySlug(
+    newsArticles,
+    "bage-vence-ba-gua-pela-copa-fgf",
+  );
+  assert.match(
+    derbyArticle.body.map((block) => block.text ?? "").join(" "),
+    /clássico Ba-Gua.*rival Guarany/,
+  );
   const paragraphs = article.body.filter(({ type }) => type === "paragraph");
   for (const goal of match.goals) {
     const paragraph = paragraphs.find(({ text }) =>
       text.startsWith(goal.teamSlug === "bage" ? "Os gols" : "Pelo Brasil"),
     );
     assert.ok(paragraph.text.includes(`${goal.scorer} (${goal.minute})`));
+  }
+});
+
+test("News: capas editoriais únicas, anúncio de Michel e reservas preservadas", () => {
+  const files = [
+    "2026-09-27-bage-4x1-brasil-pelotas.webp",
+    "2026-08-26-bage-x-guarani-va.webp",
+    "2026-08-05-bage-106-anos.webp",
+    "2026-07-05-gramadense-x-bage.webp",
+    "2026-06-17-bage-x-farroupilha.webp",
+    "2026-05-20-bage-x-guarany-bagua.webp",
+    "2026-06-04-bage-x-brasil-pelotas.webp",
+    "2026-05-11-michel-henrique.webp",
+    "2026-08-09-pelotas-x-bage.webp",
+    "2026-temporada-bage.webp",
+  ];
+  assert.deepEqual(
+    newsArticles.map(({ cover }) => cover.src),
+    files.map((file) => "/images/news/" + file),
+  );
+  assert.equal(new Set(newsArticles.map(({ cover }) => cover.src)).size, 10);
+  assert.equal(
+    getNewsBySlug(
+      newsArticles,
+      "bage-estreia-na-copa-fgf-com-empate-diante-do-farroupilha",
+    ),
+    undefined,
+  );
+  const michel = getNewsBySlug(
+    newsArticles,
+    "bage-anuncia-michel-henrique-para-reforcar-o-ataque",
+  );
+  assert.equal(michel.publishedAt, "2026-05-11");
+  assert.equal(michel.category, "FUTEBOL");
+  assert.equal(
+    michel.title,
+    "Bagé anuncia Michel Henrique para reforçar o ataque",
+  );
+  assert.equal(michel.cover.objectFit, "contain");
+  assert.equal(michel.homeFeatured, undefined);
+  assert.equal(michel.body.length, 4);
+  for (const file of [
+    "foto-derrota.webp",
+    "2026-05-13-bage-x-farroupilha.webp",
+  ]) {
+    assert.ok(
+      existsSync(new URL("../public/images/news/" + file, import.meta.url)),
+    );
+    assert.ok(newsArticles.every(({ cover }) => !cover.src.endsWith(file)));
   }
 });

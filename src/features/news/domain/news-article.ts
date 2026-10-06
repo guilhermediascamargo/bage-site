@@ -3,6 +3,8 @@ export type NewsCategory = "FUTEBOL" | "CLUBE";
 export type NewsImage = {
   src: string;
   alt: string;
+  objectPosition?: string;
+  objectFit?: "cover" | "contain";
   credit?: string;
   provisional?: boolean;
 };

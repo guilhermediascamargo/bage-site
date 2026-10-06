@@ -15,7 +15,8 @@
   A notícia do hero, o próximo jogo da Home e os benefícios de Sócios ainda são exemplos.
 - Não implemente novas áreas ou integrações sem escopo autorizado. Preserve as
   composições aprovadas e a direção Jalde Contemporâneo.
-  Notícias usa cadastro editorial único e imagens de referência provisórias.
+  Notícias usa cadastro editorial único e dez capas editoriais locais; créditos
+  fotográficos só são exibidos quando confirmados.
   Sócios não realiza associação online.
 
 ## Stack e dependências

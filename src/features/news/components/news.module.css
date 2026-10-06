@@ -120,7 +120,7 @@
 .cardLink:focus-visible .arrow {
   transform: translate(3px, -3px);
 }
-.cardLink:focus-visible .cardImage img {
+.cardLink:focus-visible .cardImage:not([data-fit="contain"]) img {
   transform: scale(1.025);
 }
 .remaining,
@@ -248,7 +248,7 @@
   border: 0;
 }
 @media (hover: hover) {
-  .cardLink:hover .cardImage img {
+  .cardLink:hover .cardImage:not([data-fit="contain"]) img {
     transform: scale(1.025);
   }
   .cardLink:hover h3 {
@@ -313,4 +313,10 @@
   .cardLink:is(:hover, :focus-visible) .arrow {
     transform: none;
   }
+}
+
+.figureImage[data-fit="contain"] {
+  aspect-ratio: 4 / 5;
+  max-width: 40rem;
+  margin-inline: auto;
 }

@@ -11,26 +11,28 @@ export default function NewsFigure({
 }) {
   return (
     <figure className={cover ? styles.coverFigure : styles.bodyFigure}>
-      <div className={styles.figureImage}>
+      <div className={styles.figureImage} data-fit={image.objectFit}>
         <Image
           src={image.src}
           alt={image.alt}
+          style={{
+            objectPosition: image.objectPosition,
+            objectFit: image.objectFit,
+          }}
           fill
           sizes={
-            cover
-              ? "(max-width: 1536px) 90vw, 1380px"
-              : "(max-width: 1066px) 90vw, 960px"
+            image.objectFit === "contain"
+              ? "(max-width: 711px) 90vw, 640px"
+              : cover
+                ? "(max-width: 1536px) 90vw, 1380px"
+                : "(max-width: 1066px) 90vw, 960px"
           }
           preload={cover}
         />
       </div>
       {(image.credit || image.provisional) && (
         <figcaption className={styles.caption}>
-          {image.provisional && (
-            <span>
-              Imagem de referência, sem identificação de partida ou data.
-            </span>
-          )}
+          {image.provisional && <span>Imagem de referência.</span>}
           {image.credit && <span>Foto: {image.credit}</span>}
         </figcaption>
       )}

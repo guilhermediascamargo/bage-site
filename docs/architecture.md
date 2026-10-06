@@ -32,7 +32,7 @@ não mova composição ou dados para o cliente apenas por efeitos visuais.
 
 Notícias mantém um dataset editorial único em `src/features/news/data/news-articles.ts`.
 O corpo usa somente parágrafo, subtítulo e imagem; capas e imagens internas têm alt,
-crédito opcional e marcação provisória. Listagem, rotas estáticas por slug, curadoria
+crédito opcional e enquadramento por fotografia (`objectPosition`/`objectFit`). Listagem, rotas estáticas por slug, curadoria
 da Home e relacionadas consomem esse cadastro, com um único template no servidor.
 Os fatos esportivos reutilizam Jogos; não há CMS, admin, banco ou IA editorial nesta V1.
 

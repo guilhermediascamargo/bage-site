@@ -60,11 +60,6 @@ export default function HistoryStory() {
       >
         <div className={styles.openingTop}>
           <h1>História</h1>
-          <p>
-            Grêmio Esportivo Bagé
-            <br />
-            Uma história para percorrer.
-          </p>
         </div>
         <p className={styles.openingYear} aria-hidden="true">
           1906
@@ -91,9 +86,6 @@ export default function HistoryStory() {
             </span>
           </a>
         </div>
-        <span className={styles.edgeNote} aria-hidden="true">
-          O tempo começa antes do nome.
-        </span>
       </Scene>
 
       <Scene
@@ -136,7 +128,6 @@ export default function HistoryStory() {
             <span className={styles.originRule} aria-hidden="true" />
           </div>
         </div>
-        <p className={styles.convergeNote}>Duas trajetórias. Um encontro.</p>
       </Scene>
 
       <Scene
@@ -186,10 +177,6 @@ export default function HistoryStory() {
             uma casa.
           </h2>
           <FieldLine />
-          <p className={styles.smallProse}>
-            O caminho encontra um campo.
-            <br />O campo começa a virar casa.
-          </p>
         </div>
         <div className={styles.homeSteps}>
           <article>
@@ -261,8 +248,6 @@ export default function HistoryStory() {
             <p className={styles.matchNames}>Bagé / Grêmio Porto-Alegrense</p>
             <p className={styles.smallProse}>
               Estádio da Baixada, Porto Alegre.
-              <br />
-              Na decisão, 2 a 1 para o Bagé.
             </p>
           </div>
           <div className={styles.beat}>
@@ -353,7 +338,6 @@ export default function HistoryStory() {
           <p>Memória do Pedra Moura</p>
           <time dateTime="1957-03-24">24.03.1957</time>
         </div>
-        <p className={styles.eyebrow}>O mundo passa pela nossa casa.</p>
         <h2 id="pele-title">
           Pelé.
           <br />
@@ -388,10 +372,6 @@ export default function HistoryStory() {
             </p>
           </div>
         </div>
-        <p className={styles.paperFoot}>
-          Composição editorial contemporânea / sem reprodução de jornal
-          histórico.
-        </p>
       </Scene>
 
       <Scene
@@ -479,10 +459,7 @@ export default function HistoryStory() {
               className={styles.stadiumImage}
             />
           </div>
-          <figcaption>
-            Pedra Moura / fotografia atual do acervo do site. A imagem não
-            registra a iluminação de 1977.
-          </figcaption>
+          <figcaption>Pedra Moura · fotografia atual, não de 1977.</figcaption>
         </figure>
       </Scene>
 
@@ -492,19 +469,17 @@ export default function HistoryStory() {
         label="Cem anos"
         className={styles.centennial}
       >
-        <p className={styles.eyebrow}>08 / 1920 → 2020</p>
+        <p className={styles.eyebrow}>08 / 1920–2020</p>
         <p className={styles.hundred} aria-hidden="true">
           100<span>anos</span>
         </p>
         <div className={styles.centennialCopy}>
           <h2 id="centenario-title">
-            Um século.
-            <br />A mesma paixão.
+            Cem anos
+            <br />
+            de Bagé.
           </h2>
-          <p>
-            Em 2020, o Grêmio Esportivo Bagé chega aos cem anos. O passado se
-            torna memória. A memória segue presente.
-          </p>
+          <p>Em 2020, o Grêmio Esportivo Bagé completou seu centenário.</p>
         </div>
       </Scene>
 
@@ -522,10 +497,6 @@ export default function HistoryStory() {
           <span>entrando em campo.</span>
         </h2>
         <div className={styles.presentBottom}>
-          <p>
-            A memória é nossa.
-            <br />O que vem pela frente, também.
-          </p>
           <nav aria-label="Continue pelo Bagé">
             <Link className={styles.textLink} href="/clube">
               Clube{" "}

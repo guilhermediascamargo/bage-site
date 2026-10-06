@@ -16,19 +16,25 @@ export default function HistoryProgress() {
     const scenes = story.querySelectorAll<HTMLElement>(
       "[data-history-scene], #arquivo",
     );
-    // Discrete chapter changes only: no scroll listener or per-pixel React state.
+    const visible = new Set<Element>();
+    // Prioriza a última área visível na ordem da narrativa, inclusive o Arquivo.
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const scene = entry.target as HTMLElement;
-          scene.dataset.seen = "true";
-          setChapter({
-            year: scene.dataset.year ?? "",
-            label:
-              scene.id === "arquivo" ? "Arquivo" : (scene.dataset.label ?? ""),
-          });
+          if (entry.isIntersecting) {
+            visible.add(entry.target);
+            (entry.target as HTMLElement).dataset.seen = "true";
+          } else {
+            visible.delete(entry.target);
+          }
         }
+        const scene = Array.from(scenes).findLast((item) => visible.has(item));
+        if (!scene) return;
+        setChapter({
+          year: scene.dataset.year ?? "",
+          label:
+            scene.id === "arquivo" ? "Arquivo" : (scene.dataset.label ?? ""),
+        });
       },
       { rootMargin: "-25% 0px -45% 0px", threshold: 0 },
     );

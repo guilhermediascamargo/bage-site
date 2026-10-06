@@ -62,7 +62,19 @@ export default function SeasonMatchCard({ match }: { match: SeasonMatch }) {
         )}
         <div className={styles.stadiumCaption}>
           <span className={styles.venueMarker} aria-hidden="true">
-            ⌖
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              focusable="false"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="6" />
+              <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
+            </svg>
           </span>
           <span>
             {match.venue?.name ?? "Estádio a confirmar"}

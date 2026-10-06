@@ -16,6 +16,7 @@ import {
 } from "../data/membership-plans";
 import { membershipWhatsApp } from "../domain/membership-contact";
 import styles from "./membership-page.module.css";
+import MembershipBeeMark from "./membership-bee-mark";
 
 const mobileQuery = "(max-width: 47.99rem)";
 
@@ -109,7 +110,6 @@ export default function MembershipCollection({
                   membershipFamilies.find((family) => family.id === familyId)
                     ?.title
                 }{" "}
-                / Selecionada
               </p>
               <h4>{selected.name}</h4>
               <p className={styles.detailPrice}>
@@ -126,10 +126,7 @@ export default function MembershipCollection({
                   <li key={benefit}>{benefit}</li>
                 ))}
               </ul>
-              <p>
-                Confirme valores e condições diretamente com o clube. Esta
-                página não realiza associação online.
-              </p>
+              <p>Confirme as condições diretamente com o clube.</p>
               <a
                 href={membershipWhatsApp(selected.name)}
                 target="_blank"
@@ -239,6 +236,7 @@ export default function MembershipCollection({
                             className={`${styles.face} ${styles.back}`}
                             aria-hidden={!flipped}
                           >
+                            <MembershipBeeMark className={styles.beeMark} />
                             <span className={styles.demoTag}>
                               Demonstrativo
                             </span>

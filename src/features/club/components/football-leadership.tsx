@@ -6,9 +6,6 @@ export default function FootballLeadership() {
         aria-hidden="true"
         className="absolute top-0 right-8 h-px w-20 bg-bage-jalde sm:right-20"
       />
-      <p className="mb-5 text-xs tracking-widest text-foreground-secondary uppercase">
-        Grêmio Esportivo Bagé
-      </p>
       <h2 className="text-5xl font-bold tracking-[-0.05em] sm:text-7xl">
         Diretoria
       </h2>

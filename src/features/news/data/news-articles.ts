@@ -1,27 +1,17 @@
 import { matches2026 } from "../../matches/data/matches-2026";
 import { seasonSummary } from "../../matches/domain/season-helpers";
 import type { SeasonMatch } from "../../matches/domain/season-match";
-import type { NewsArticle, NewsBlock, NewsImage } from "../domain/news-article";
+import type { NewsArticle, NewsBlock } from "../domain/news-article";
 
-// Os registros de Jogos são a fonte dos fatos esportivos. As imagens abaixo
-// ilustram os locais; não são apresentadas como fotografias destas partidas.
+// Os registros de Jogos continuam sendo a fonte dos fatos esportivos.
 function matchRecord(id: string) {
   const match = matches2026.find((item) => item.id === id);
-  if (!match?.date || !match.venue?.image) {
+  if (!match?.date) {
     throw new Error(`Registro esportivo incompleto para a notícia: ${id}`);
   }
   return {
     ...match,
     date: match.date,
-    venue: { ...match.venue, image: match.venue.image },
-  };
-}
-
-function stadiumCover(match: ReturnType<typeof matchRecord>): NewsImage {
-  return {
-    src: match.venue.image,
-    alt: `Estádio ${match.venue.name}${match.venue.city ? `, em ${match.venue.city}` : ""}.`,
-    provisional: true,
   };
 }
 
@@ -34,11 +24,6 @@ function goalsText(match: SeasonMatch, teamSlug: string) {
 
 const paragraph = (text: string): NewsBlock => ({ type: "paragraph", text });
 const heading = (text: string): NewsBlock => ({ type: "heading", text });
-const image = (value: NewsImage): NewsBlock => ({
-  type: "image",
-  image: value,
-});
-
 const closing = matchRecord("a2-15");
 const guarani = matchRecord("a2-06");
 const birthday = matchRecord("a2-02");
@@ -51,31 +36,21 @@ if (!semifinal.aggregate || !semifinal.shootout) {
 const qualification = matchRecord("fgf-06");
 const derby = matchRecord("fgf-02");
 const brasilDraw = matchRecord("fgf-04");
-const debut = matchRecord("fgf-01");
 const pelotasDraw = matchRecord("a2-03");
 const summary = seasonSummary(matches2026);
-
-const pedraMouraStand: NewsImage = {
-  src: "/images/prototype/stadium/arquibancada.jpg",
-  alt: "Bandeira e arquibancadas do Estádio Pedra Moura, em Bagé.",
-  provisional: true,
-};
-
-const celebrationReference: NewsImage = {
-  src: "/images/prototype/home/hero-jogador.jpg",
-  alt: "Jogadores do Bagé celebrando juntos em campo.",
-  provisional: true,
-};
 
 export const newsArticles: readonly NewsArticle[] = [
   {
     slug: "bage-fecha-temporada-com-vitoria-no-pedra-moura",
     title: "Bagé fecha a temporada com vitória por 4 a 1 no Pedra Moura",
-    excerpt:
-      "Vitória sobre o Brasil de Pelotas encerra a sequência de partidas oficiais registradas em 2026.",
+    excerpt: "Vitória sobre o Brasil de Pelotas encerra a temporada de 2026.",
     category: "FUTEBOL",
     publishedAt: closing.date,
-    cover: stadiumCover(closing),
+    cover: {
+      src: "/images/news/2026-09-27-bage-4x1-brasil-pelotas.webp",
+      alt: "Jogadores do Bagé comemoram durante a vitória sobre o Brasil de Pelotas no Pedra Moura.",
+      objectPosition: "50% 25%",
+    },
     body: [
       paragraph(
         `O Bagé venceu o Brasil de Pelotas por ${closing.homeScore} a ${closing.awayScore} no Pedra Moura, em 27 de setembro. A partida foi válida pela ${closing.phaseOrRound.toLowerCase()} da ${closing.competition}.`,
@@ -83,12 +58,8 @@ export const newsArticles: readonly NewsArticle[] = [
       paragraph(
         `Os gols do Jalde-Negro foram marcados por ${goalsText(closing, "bage")}.`,
       ),
-      image(celebrationReference),
       paragraph(
         `Pelo Brasil de Pelotas, marcou ${goalsText(closing, closing.awayTeam.slug)}.`,
-      ),
-      paragraph(
-        "O confronto é a última partida oficial da temporada 2026 registrada para o Bagé.",
       ),
     ],
   },
@@ -98,7 +69,11 @@ export const newsArticles: readonly NewsArticle[] = [
     excerpt: "João Victor Castro marcou na vitória por 1 a 0 pela Série A2.",
     category: "FUTEBOL",
     publishedAt: guarani.date,
-    cover: stadiumCover(guarani),
+    cover: {
+      src: "/images/news/2026-08-26-bage-x-guarani-va.webp",
+      alt: "Jogadores do Bagé durante a partida contra o Guarani de Venâncio Aires no Pedra Moura.",
+      objectPosition: "50% 40%",
+    },
     body: [
       paragraph(
         `No dia 26 de agosto, o Bagé venceu o ${guarani.awayTeam.name} por ${guarani.homeScore} a ${guarani.awayScore} no Pedra Moura, pela ${guarani.competition}.`,
@@ -106,7 +81,6 @@ export const newsArticles: readonly NewsArticle[] = [
       paragraph(
         `O gol da partida foi marcado por ${goalsText(guarani, "bage")}.`,
       ),
-      image(celebrationReference),
       paragraph(
         "O jogo corresponde à rodada 6, disputada depois da rodada 7 no calendário registrado da competição.",
       ),
@@ -119,7 +93,11 @@ export const newsArticles: readonly NewsArticle[] = [
       "Em 5 de agosto, o clube venceu o Lajeadense por 2 a 0 pela Série A2.",
     category: "CLUBE",
     publishedAt: birthday.date,
-    cover: stadiumCover(birthday),
+    cover: {
+      src: "/images/news/2026-08-05-bage-106-anos.webp",
+      alt: "Bagé em campo no Pedra Moura na partida disputada no aniversário de 106 anos do clube.",
+      objectPosition: "50% 40%",
+    },
     homeFeatured: 2,
     body: [
       paragraph(
@@ -128,7 +106,6 @@ export const newsArticles: readonly NewsArticle[] = [
       paragraph(
         `Na mesma data, o Jalde-Negro venceu o ${birthday.awayTeam.name} por ${birthday.homeScore} a ${birthday.awayScore}, no Pedra Moura. O confronto foi válido pela ${birthday.phaseOrRound.toLowerCase()} da ${birthday.competition}.`,
       ),
-      image(celebrationReference),
       paragraph(`Os gols foram marcados por ${goalsText(birthday, "bage")}.`),
     ],
   },
@@ -140,7 +117,10 @@ export const newsArticles: readonly NewsArticle[] = [
       "Vitória por 1 a 0 deixou o agregado em 1 a 1; o Gramadense avançou nos pênaltis.",
     category: "FUTEBOL",
     publishedAt: semifinal.date,
-    cover: stadiumCover(semifinal),
+    cover: {
+      src: "/images/news/2026-07-05-gramadense-x-bage.webp",
+      alt: "Bagé em campo diante do Gramadense pela semifinal da Copa FGF.",
+    },
     body: [
       paragraph(
         `O Bagé venceu o ${semifinal.homeTeam.name} por ${semifinal.awayScore} a ${semifinal.homeScore} em 5 de julho, na Vila Olímpica, em Gramado. Foi o jogo de volta da semifinal da ${semifinal.competition}.`,
@@ -152,9 +132,6 @@ export const newsArticles: readonly NewsArticle[] = [
       paragraph(
         `A vitória levou o placar agregado a ${semifinal.aggregate?.join(" a ")}. Na disputa de pênaltis, o Gramadense venceu por ${semifinal.shootout?.join(" a ")} e avançou à final.`,
       ),
-      paragraph(
-        "O Bagé encerrou sua participação na Copa FGF na semifinal, depois de vencer a partida de volta no tempo regulamentar.",
-      ),
     ],
   },
   {
@@ -164,7 +141,11 @@ export const newsArticles: readonly NewsArticle[] = [
       "Vitória por 2 a 1 na Boca do Lobo garantiu a classificação na última rodada da primeira fase.",
     category: "FUTEBOL",
     publishedAt: qualification.date,
-    cover: stadiumCover(qualification),
+    cover: {
+      src: "/images/news/2026-06-17-bage-x-farroupilha.webp",
+      alt: "Bagé enfrenta o Farroupilha pela Copa FGF.",
+      objectPosition: "50% 8%",
+    },
     homeFeatured: 3,
     body: [
       paragraph(
@@ -182,10 +163,13 @@ export const newsArticles: readonly NewsArticle[] = [
     excerpt: "Chaves marcou o gol do 1 a 0 sobre o Guarany no Estrela D’Alva.",
     category: "FUTEBOL",
     publishedAt: derby.date,
-    cover: stadiumCover(derby),
+    cover: {
+      src: "/images/news/2026-05-20-bage-x-guarany-bagua.webp",
+      alt: "Bagé e Guarany disputam o clássico Ba-Gua pela Copa FGF.",
+    },
     body: [
       paragraph(
-        `No dia 20 de maio, o Bagé venceu o ${derby.homeTeam.name} por ${derby.awayScore} a ${derby.homeScore}, no Estrela D’Alva, em Bagé.`,
+        `No clássico Ba-Gua de 20 de maio, o Bagé venceu o rival ${derby.homeTeam.name} por ${derby.awayScore} a ${derby.homeScore}, no Estrela D’Alva.`,
       ),
       paragraph(
         `O gol do clássico foi marcado por ${goalsText(derby, "bage")}.`,
@@ -202,7 +186,10 @@ export const newsArticles: readonly NewsArticle[] = [
       "Gols de Guty e Michel definiram o empate por 1 a 1 pela Copa FGF.",
     category: "FUTEBOL",
     publishedAt: brasilDraw.date,
-    cover: stadiumCover(brasilDraw),
+    cover: {
+      src: "/images/news/2026-06-04-bage-x-brasil-pelotas.webp",
+      alt: "Bagé e Brasil de Pelotas em campo no Pedra Moura pela Copa FGF.",
+    },
     body: [
       paragraph(
         `Bagé e ${brasilDraw.awayTeam.name} empataram por ${brasilDraw.homeScore} a ${brasilDraw.awayScore} em 4 de junho, no Pedra Moura.`,
@@ -216,22 +203,34 @@ export const newsArticles: readonly NewsArticle[] = [
     ],
   },
   {
-    slug: "bage-estreia-na-copa-fgf-com-empate-diante-do-farroupilha",
-    title: "Bagé estreia na Copa FGF com empate diante do Farroupilha",
-    excerpt: "A primeira rodada terminou em 1 a 1 no Pedra Moura.",
+    slug: "bage-anuncia-michel-henrique-para-reforcar-o-ataque",
+    title: "Bagé anuncia Michel Henrique para reforçar o ataque",
+    excerpt:
+      "O Jalde-Negro confirmou a contratação do centroavante Michel Henrique para a disputa da Copa FGF e a sequência da temporada 2026.",
     category: "FUTEBOL",
-    publishedAt: debut.date,
-    cover: stadiumCover(debut),
+    publishedAt: "2026-05-11",
+    cover: {
+      src: "/images/news/2026-05-11-michel-henrique.webp",
+      alt: "Michel Henrique em material de anúncio como reforço do Bagé em 2026.",
+      objectFit: "contain",
+    },
     body: [
-      paragraph(
-        `O Bagé iniciou sua participação na ${debut.competition} em 13 de maio com empate por ${debut.homeScore} a ${debut.awayScore} diante do ${debut.awayTeam.name}.`,
-      ),
-      paragraph(
-        `No Pedra Moura, marcou pelo Jalde-Negro ${goalsText(debut, "bage")}. O gol do Farroupilha foi de ${goalsText(debut, debut.awayTeam.slug)}.`,
-      ),
-      paragraph(
-        `O confronto foi válido pela ${debut.phaseOrRound.toLowerCase()} da competição.`,
-      ),
+      {
+        type: "paragraph",
+        text: "O Bagé confirmou, em 11 de maio de 2026, a contratação do centroavante Michel Henrique para reforçar o setor ofensivo na Copa FGF.",
+      },
+      {
+        type: "paragraph",
+        text: "Natural de São Gabriel, o atacante chegou ao Pedra Moura após passagem pelo Marília-SP. No primeiro trimestre da temporada, também havia defendido o Inter-SM no Campeonato Gaúcho.",
+      },
+      {
+        type: "paragraph",
+        text: "Michel chegou ao clube trazendo experiência acumulada no futebol gaúcho. O centroavante já havia sido artilheiro do Gauchão em duas oportunidades, pelo Passo Fundo em 2015 e pelo São Luiz em 2018.",
+      },
+      {
+        type: "paragraph",
+        text: "A contratação reforçou as opções ofensivas do elenco jalde-negro às vésperas da estreia na Copa FGF.",
+      },
     ],
   },
   {
@@ -241,7 +240,10 @@ export const newsArticles: readonly NewsArticle[] = [
       "Pedro marcou para o Jalde-Negro no empate por 1 a 1 pela Série A2.",
     category: "FUTEBOL",
     publishedAt: pelotasDraw.date,
-    cover: stadiumCover(pelotasDraw),
+    cover: {
+      src: "/images/news/2026-08-09-pelotas-x-bage.webp",
+      alt: "Bagé enfrenta o Pelotas na Boca do Lobo.",
+    },
     body: [
       paragraph(
         `Pelotas e Bagé empataram por ${pelotasDraw.homeScore} a ${pelotasDraw.awayScore} em 9 de agosto, na Boca do Lobo, em Pelotas.`,
@@ -257,10 +259,14 @@ export const newsArticles: readonly NewsArticle[] = [
   {
     slug: "os-numeros-do-bage-na-temporada-2026",
     title: "Os números do Bagé na temporada 2026",
-    excerpt: `${summary.played} partidas oficiais entre Copa FGF e Série A2: o balanço da temporada registrada.`,
+    excerpt: `${summary.played} partidas oficiais entre Copa FGF e Série A2.`,
     category: "CLUBE",
     publishedAt: "2026-09-28",
-    cover: pedraMouraStand,
+    cover: {
+      src: "/images/news/2026-temporada-bage.webp",
+      alt: "Jogadores do Bagé reunidos durante a temporada 2026.",
+      objectPosition: "50% 70%",
+    },
     homeFeatured: 1,
     body: [
       paragraph(
@@ -271,9 +277,8 @@ export const newsArticles: readonly NewsArticle[] = [
         `Foram ${summary.win} vitórias, ${summary.draw} empates e ${summary.loss} derrotas. O balanço considera o resultado de cada partida no tempo regulamentar, sem somar disputas de pênaltis ou amistosos.`,
       ),
       paragraph(
-        `São ${matches2026.filter(({ competition }) => competition === "Copa FGF").length} jogos pela Copa FGF e ${matches2026.filter(({ competition }) => competition === "Série A2").length} pela Série A2. Entre os estádios da temporada estão o Pedra Moura, em Bagé, e a Boca do Lobo, em Pelotas.`,
+        `São ${matches2026.filter(({ competition }) => competition === "Copa FGF").length} jogos pela Copa FGF e ${matches2026.filter(({ competition }) => competition === "Série A2").length} pela Série A2.`,
       ),
-      image(stadiumCover(pelotasDraw)),
       heading("Gols"),
       paragraph(
         `O Jalde-Negro marcou ${summary.goalsFor} gols e sofreu ${summary.goalsAgainst}. O saldo foi de ${summary.goalsFor - summary.goalsAgainst}.`,

@@ -8,7 +8,6 @@ export default function HistoryArchive() {
       className={styles.archive}
       aria-labelledby="archive-title"
     >
-      <p className={styles.eyebrow}>Para voltar a uma data</p>
       <h2 id="archive-title">Arquivo jalde-negro.</h2>
       <details>
         <summary>
@@ -23,12 +22,6 @@ export default function HistoryArchive() {
           ))}
         </dl>
       </details>
-      <p className={styles.archiveNote}>
-        Esta narrativa acompanha a pesquisa histórica fornecida para o projeto.
-        Primeiro presidente, relação completa de fundadores e data jurídica
-        exata da aquisição do Pedra Moura permanecem em aberto. A memória também
-        exige cuidado.
-      </p>
     </section>
   );
 }

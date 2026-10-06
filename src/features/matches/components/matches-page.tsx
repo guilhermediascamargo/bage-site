@@ -20,10 +20,7 @@ export default function MatchesSeasonPage() {
     <main className={styles.page}>
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>
-            Grêmio Esportivo Bagé <span aria-hidden="true">/</span> Temporada
-            2026
-          </p>
+          <p className={styles.eyebrow}>Temporada 2026</p>
           <h1>
             Jogos<span aria-hidden="true">.</span>
           </h1>

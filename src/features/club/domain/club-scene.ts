@@ -86,7 +86,7 @@ export function placeClubCard(
       );
     }) ?? point.placement;
   const position =
-    scene.width < 768
+    scene.width < 1024
       ? {
           x: scene.width - card.width - margin,
           y: scene.height - card.height - margin,

@@ -15,11 +15,11 @@ validações conhecidas ficam em `docs/project-status.md`.
 - Sócios: 15 modalidades e preços fornecidos, carteirinhas, detalhes e contato com
   o clube pelo WhatsApp. Benefícios explicitamente demonstrativos, não oficiais.
 - Notícias: dez matérias factuais de Futebol/Clube, listagem cronológica, template
-  único e três destaques curados no Agora. Fotos locais provisórias e créditos opcionais.
+  único e três destaques curados no Agora. Dez capas editoriais locais e créditos opcionais, sem atribuições presumidas.
 - Clube: primeiro frame, vídeo de entrada e interior interativo com camisa, três
-  conquistas e escudo. Até 1023 px, seletores identificados e painel completo abaixo
-  da cena; desktop mantém pontos e cards conectados à imagem. Conteúdo local
-  fornecido, painel único e entrada sem vídeo em reduced motion.
+  conquistas e escudo. Cards contextuais dentro da cena em todas as larguras;
+  mobile/tablet usam overlay inferior com scroll interno quando necessário.
+  Conteúdo local fornecido, painel único e entrada sem vídeo em reduced motion.
 - A notícia e o próximo jogo do hero
   são demonstrativos; o último resultado utiliza o dataset real de Jogos.
 
@@ -32,13 +32,19 @@ sustentam a identidade. Preservar os visuais aprovados, mobile, foco e reduced m
 Não inventar notícias, atletas, partidas, estatísticas, história ou patrocinadores.
 Exemplos exigem autorização e identificação visível. Usar as fontes existentes;
 não duplicar datasets. Assets fornecidos não devem ser recriados ou recoloridos.
-O protótipo mantém `noindex, nofollow` e não declara oficialidade.
+O protótipo mantém `noindex, nofollow` e não declara oficialidade. Cada linha
+visível deve acrescentar informação: remover redundâncias sem cortar fatos,
+instruções ou identificação necessária de conteúdo demonstrativo. Sócios usa
+um motivo geométrico decorativo inspirado na abelha, sem representar arte oficial
+do mascote; não há mascote nem novo hotspot em Clube.
 
 ### Perspectiva editorial do Ba-Gua
 
 O Guarany pode e deve ser mencionado quando necessário para contextualizar fatos
 históricos, partidas e acontecimentos do G.E. Bagé. O site deve sempre manter
-perspectiva jalde-negra: o Bagé é o protagonista. Evitar conteúdo que desenvolva,
+perspectiva jalde-negra: o Bagé é o protagonista. Quando pertinente à narrativa,
+identificar o Guarany como rival e o confronto como clássico Ba-Gua, sem aplicar
+a expressão mecanicamente aos dados funcionais. Evitar conteúdo que desenvolva,
 promova ou dê protagonismo institucional ao rival. Ao mesmo tempo, manter linguagem
 factual, respeitosa e não depreciativa.
 

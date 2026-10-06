@@ -10,7 +10,6 @@ export default function MembershipPage() {
     <main className={styles.page}>
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Grêmio Esportivo Bagé / Sócios</p>
           <h1>
             Seja sócio
             <br />
@@ -53,9 +52,7 @@ export default function MembershipPage() {
           <span className={styles.heroClub}>GRÊMIO ESPORTIVO BAGÉ</span>
           <span className={styles.heroMember}>Sócio</span>
           <span className={styles.heroYear}>2026</span>
-          <span className={styles.heroPrototype}>
-            MODELO DE CARTEIRINHA / PROTÓTIPO
-          </span>
+          <span className={styles.heroPrototype}>MODELO · SEM VALIDADE</span>
         </div>
       </header>
 
