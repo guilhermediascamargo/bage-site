@@ -483,6 +483,23 @@
     font-size: 0.6rem;
   }
 }
+@media (min-width: 600px) and (max-width: 1199px) {
+  .railSet li {
+    flex-basis: clamp(16rem, 34vw, 22rem);
+    width: clamp(16rem, 34vw, 22rem);
+  }
+  .athlete {
+    height: clamp(25rem, 44vw, 30rem);
+  }
+  .sponsorGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+  .sponsorGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .destination span,
   .portrait,

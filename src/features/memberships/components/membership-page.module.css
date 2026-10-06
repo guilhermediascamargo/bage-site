@@ -623,6 +623,35 @@
     padding: 1rem;
   }
 }
+@media (min-width: 600px) and (max-width: 1199px) {
+  .card {
+    min-height: 16rem;
+  }
+  .face {
+    padding: 1rem;
+  }
+  .cardName {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  }
+}
+@media (min-width: 600px) and (max-width: 1099px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+@media (min-width: 700px) and (max-width: 767px) {
+  .hero {
+    grid-template-columns: 1fr 0.9fr;
+    gap: 2rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+  }
+  .details {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card::after {

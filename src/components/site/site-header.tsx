@@ -17,6 +17,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
   const [compact, setCompact] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const navigationRef = useRef<HTMLElement>(null);
   const overPhoto = pathname === "/" && !compact && !menuOpen;
 
   useEffect(() => {
@@ -32,13 +33,47 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
   }, []);
 
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 64rem)");
-    const closeOnDesktop = (event: MediaQueryListEvent) => {
-      if (event.matches) setMenuOpen(false);
+    const desktop = window.matchMedia("(min-width: 900px)");
+    let navigationFocus: "menu" | "navigation" | null = null;
+    const trackFocus = (event: FocusEvent) => {
+      const target = event.target;
+      navigationFocus =
+        target === menuButtonRef.current
+          ? "menu"
+          : target instanceof Node && navigationRef.current?.contains(target)
+            ? "navigation"
+            : null;
     };
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      const focused = document.activeElement;
+      // O navegador pode desfocar o controle oculto antes do evento de media query.
+      const browserBlurred = focused === document.body;
+      if (event.matches) {
+        setMenuOpen(false);
+        if (
+          focused === menuButtonRef.current ||
+          (browserBlurred && navigationFocus === "menu")
+        ) {
+          const link =
+            navigationRef.current?.querySelector<HTMLAnchorElement>(
+              'a[aria-current="page"]',
+            ) ?? navigationRef.current?.querySelector<HTMLAnchorElement>("a");
+          link?.focus({ preventScroll: true });
+        }
+      } else if (
+        (focused && navigationRef.current?.contains(focused)) ||
+        (browserBlurred && navigationFocus === "navigation")
+      ) {
+        menuButtonRef.current?.focus({ preventScroll: true });
+      }
+    };
+    document.addEventListener("focusin", trackFocus);
     desktop.addEventListener("change", closeOnDesktop);
 
-    return () => desktop.removeEventListener("change", closeOnDesktop);
+    return () => {
+      document.removeEventListener("focusin", trackFocus);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
   }, []);
 
   useEffect(() => {
@@ -75,7 +110,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
             }
             #site-menu-button { display: none; }
             #site-navigation { display: block; }
-            @media (max-width: 63.99rem) {
+            @media (max-width: 899px) {
               #site-header > div {
                 background: var(--color-bage-black);
                 border-color: var(--color-bage-charcoal);
@@ -140,7 +175,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
               aria-controls="site-navigation"
               aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
               onClick={() => setMenuOpen(!menuOpen)}
-              className="inline-flex min-h-11 min-w-11 items-center justify-center border border-foreground-secondary text-bage-ivory hover:border-bage-jalde focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bage-jalde lg:hidden"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center border border-foreground-secondary text-bage-ivory hover:border-bage-jalde focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bage-jalde min-[900px]:hidden"
             >
               <svg
                 width="24"
@@ -164,10 +199,11 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
 
             <nav
               id="site-navigation"
+              ref={navigationRef}
               aria-label="Navegação principal"
-              className={`${menuOpen ? "block" : "hidden"} absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-bage-charcoal bg-bage-black px-6 py-4 lg:static lg:block lg:max-h-none lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0`}
+              className={`${menuOpen ? "block" : "hidden"} absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-bage-charcoal bg-bage-black px-6 py-4 min-[900px]:static min-[900px]:block min-[900px]:max-h-none min-[900px]:overflow-visible min-[900px]:border-0 min-[900px]:bg-transparent min-[900px]:p-0`}
             >
-              <ul className="grid gap-1 lg:flex lg:items-center">
+              <ul className="grid gap-1 min-[900px]:flex min-[900px]:items-center">
                 {siteNavigation.map(({ href, label }) => {
                   const active =
                     pathname === href ||
@@ -179,7 +215,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
                         href={href}
                         aria-current={active ? "page" : undefined}
                         onClick={() => setMenuOpen(false)}
-                        className={`flex min-h-11 items-center border-b-2 px-3 py-2 font-sans font-semibold hover:text-bage-jalde focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bage-jalde ${active ? "border-bage-jalde text-bage-jalde" : "border-transparent text-bage-ivory"}`}
+                        className={`flex min-h-11 items-center border-b-2 px-3 py-2 font-sans font-semibold hover:text-bage-jalde focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bage-jalde min-[900px]:max-[1199px]:text-sm ${active ? "border-bage-jalde text-bage-jalde" : "border-transparent text-bage-ivory"}`}
                       >
                         {label}
                       </Link>

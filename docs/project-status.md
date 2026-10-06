@@ -1,6 +1,6 @@
 # Estado do projeto
 
-Atualizado em 04/10/2026. Protótipo não oficial do Grêmio Esportivo Bagé, com
+Atualizado em 05/10/2026. Protótipo não oficial do Grêmio Esportivo Bagé, com
 identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
 
 ## Base e rodada atual
@@ -11,6 +11,9 @@ identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
 - Polimento implementado em `feature/final-mobile-polish`, criada exatamente desse
   commit após fetch e confirmação de working tree limpo. Sem merge ou trabalho
   direto nas branches compartilhadas.
+- Rodada tablet em `feature/tablet-responsive-polish`, criada exatamente de
+  `origin/feature/final-mobile-polish` no commit
+  `b4c8f16833d1e9954db159472020a852da0ea104`, após fetch e working tree limpo.
 - Home, Jogos, Elenco, História, Sócios, Notícias, Clube e 404 estão implementados.
   A rodada preserva as composições aprovadas e corrige problemas concretos.
 
@@ -40,7 +43,7 @@ identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
   7–0 de 1940, combinado contra o Santos em 1957 e conquista de 1974. Menções
   necessárias e factuais preservadas, sem promoção institucional do rival.
 
-## Polimento final
+## Polimento do checkpoint mobile
 
 - Clube até 1023 px: cena 16:9 com marcadores numerados, seletores identificados de
   pelo menos 60 px e painel completo abaixo da cena. Duas colunas de seletores a
@@ -61,6 +64,41 @@ identidade Jalde Contemporâneo e `noindex, nofollow` preservados.
 - Favicon ICO derivado do escudo aprovado, com tamanhos 16/32/48/64. Descrições
   próprias de Clube/Elenco e descrição global coerente com protótipo; metadata de
   artigos e bloqueio de indexação preservados.
+
+## Experiência de tablet
+
+- Faixa de ajustes de 600 a 1199 px; celular pequeno e desktop de 1440 px
+  preservam suas composições. Breakpoints por conteúdo, sem uma troca global de layout.
+- Home: hero limitado entre 32 e 44 rem em portrait; notícia e próximo jogo lado
+  a lado em landscape a partir de 900 px, com card de jogo mais enxuto. Rail mostra
+  mais de um atleta por vez, mantendo swipe e setas. Patrocinadores em três colunas
+  até 899 px e quatro acima; Agora e dados da temporada preservados.
+- Jogos: estádio lateral a partir de 768 px, com conteúdo e placares legíveis.
+  Filtros, gols, agregado e pênaltis preservam o cadastro.
+- Elenco: mantidos dois cartazes em portrait, três a partir de 900 px e quatro
+  a partir de 1200 px. Retratos, fallbacks, tabs e perfis não precisaram de alteração.
+- História: casa e imortais em sequência linear em portrait, sem sticky nessas
+  cenas. Landscape mantém composição dividida; abertura mais curta e capítulo
+  visível na navegação a partir de 900 px. Sticky é desativado nas alturas baixas
+  e em reduced motion. Doze cenas e arquivo preservados.
+- Sócios: duas colunas de 600 a 1099 px; três a partir de 1100 px. Cards com altura
+  suficiente para as duas faces, detalhes após a linha selecionada e foco preservado
+  quando a rotação reposiciona o painel ou seu link de WhatsApp.
+- Notícias: destaque 16:9 e duas colunas de listagem/secundárias de 600 a 959 px;
+  composição editorial existente nas larguras maiores. Artigos e relacionadas preservados.
+- Clube: até 599 px mantém a experiência mobile. Portrait a partir de 700 px
+  apresenta cena acima e seletores/painel lado a lado abaixo; em 600 px, painel
+  abaixo da grade de seletores. Landscape de tablet apresenta cena à esquerda e
+  seletores à direita; com ponto aberto, painel à direita e seletores sob a cena.
+  Sem sobrepor a imagem ou exigir rolagem interna. Rotação preserva seleção e foco
+  e revela o contexto quando o painel tem foco. Desktop a partir de 1200 px mantém
+  hotspots, posicionamento e conectores originais.
+- Header: navegação direta a partir de 900 px, com texto de 14 px até 1199 px,
+  sete links e alvos de 44 px; abaixo, menu expansível. Foco migra ao controle
+  visível quando o breakpoint muda, inclusive se o navegador desfocar antes
+  do evento. Footer em sete colunas estáveis na faixa tablet.
+- Imagens de estádio/notícias/interior usam `sizes` coerentes com as novas colunas.
+  Vídeo otimizado, assets, dependências, arquitetura e política editorial inalterados.
 
 ## Mídia do Clube
 
@@ -91,7 +129,7 @@ os domínios; `src/server` reserva integrações privadas. Server Components por
 padrão; fronteiras Client limitadas às interações existentes. Sem novas dependências.
 `next/font/google` pode exigir rede ao obter fontes no build.
 
-## Validações desta rodada
+## Validações do checkpoint mobile
 
 `pnpm check` passou: Prettier, ESLint sem warnings, Next typegen, TypeScript,
 build padrão com Turbopack (50 páginas geradas) e 32 testes de domínio/smoke HTTP.
@@ -108,6 +146,28 @@ de hidratação, exceções JS, assets ausentes ou overflow horizontal. Emulaç�
 iPhone pequeno/moderno, Android e tablet complementou as larguras prescritas.
 Capturas, roteiros e relatórios ficam fora do Git, em
 `C:\Users\Rogério\Documents\bage-final-review-2026-10-04`.
+
+## Validações da rodada tablet
+
+- `pnpm check`: formatação, lint sem warnings, typecheck, build padrão Turbopack
+  (50 páginas) e 32 testes aprovados; `git diff --check` sem erros.
+- Matriz de 256 combinações: 16 páginas em 16 viewports, incluindo todas as larguras
+  solicitadas, portrait/landscape, 1024×600, 1180×700 e regressão 320/390/1440.
+  Sem overflow horizontal, exceções JS, erros de hidratação ou assets ausentes.
+- 120 cenários de interação, cobrindo filtros combinados, tabs, 15 modalidades,
+  12 cenas/arquivo, cinco hotspots, teclado/ESC, rail, menu/footer, vídeo/fallback,
+  reduced motion e conteúdo sem JS. Mais 20 cenários de toque e rotação em quatro
+  pares portrait/landscape, preservando foco, seleção, filtros e tabs.
+- 80 auditorias axe nas páginas e quatro com painel do Clube aberto, sem violações.
+  60 verificações nas bordas 599/600, 699/700, 767/768, 899/900, 1099/1100 e
+  1199/1200 px sem sobreposição na navegação ou overflow; 51 rotas/âncoras aprovadas.
+- Em 1024×768 e DPR 1, interior do Clube entregue pelo pipeline de 750 px para
+  cena de aproximadamente 676 px; poster de entrada mantém dimensão da entrada.
+  Reduced motion não solicita vídeo. Nenhum asset ou dependência acrescentado.
+- Capturas, roteiros e relatórios externos:
+  `C:\Users\Rogério\Documents\bage-tablet-review-2026-10-05`.
+  Testes visuais e touch em Chromium emulado; aparelho físico e Safari/WebKit
+  continuam dependendo de revisão humana.
 
 ## Pendências reais
 

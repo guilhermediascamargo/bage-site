@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Fragment,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useSyncExternalStore,
@@ -17,7 +18,7 @@ import {
 import { membershipWhatsApp } from "../domain/membership-contact";
 import styles from "./membership-page.module.css";
 
-const mobileQuery = "(max-width: 47.99rem)";
+const mobileQuery = "(max-width: 599px)";
 
 function subscribeToViewport(onChange: () => void) {
   const query = window.matchMedia(mobileQuery);
@@ -45,6 +46,10 @@ export default function MembershipCollection({
   const [gridColumns, setGridColumns] = useState<
     Partial<Record<MembershipPlan["family"], number>>
   >({});
+  const measuredColumns = useRef(gridColumns);
+  const focusAfterReflow = useRef<{ panelId: string; link: boolean } | null>(
+    null,
+  );
   const isMobile = useSyncExternalStore(
     subscribeToViewport,
     isMobileViewport,
@@ -59,19 +64,36 @@ export default function MembershipCollection({
           .gridTemplateColumns.trim()
           .split(/\s+/).length;
       }
-      setGridColumns((previous) =>
+      if (
         membershipFamilies.every(
-          (family) => previous[family.id] === columns[family.id],
+          (family) => measuredColumns.current[family.id] === columns[family.id],
         )
-          ? previous
-          : columns,
-      );
+      )
+        return;
+      const focused = document.activeElement;
+      const panel = focused?.closest('section[id^="membership-details-"]');
+      if (panel)
+        focusAfterReflow.current = {
+          panelId: panel.id,
+          link: focused instanceof HTMLAnchorElement,
+        };
+      measuredColumns.current = columns;
+      setGridColumns(columns);
     }
     const observer = new ResizeObserver(measureColumns);
     for (const grid of grids.current.values()) observer.observe(grid);
     measureColumns();
     return () => observer.disconnect();
   }, []);
+
+  useLayoutEffect(() => {
+    const pending = focusAfterReflow.current;
+    if (!pending) return;
+    const panel = document.getElementById(pending.panelId);
+    const target = pending.link ? (panel?.querySelector("a") ?? panel) : panel;
+    target?.focus({ preventScroll: true });
+    focusAfterReflow.current = null;
+  }, [gridColumns]);
 
   function select(plan: MembershipPlan) {
     setSelectedId(plan.id);

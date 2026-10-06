@@ -56,7 +56,7 @@ export default function SeasonMatchCard({ match }: { match: SeasonMatch }) {
             src={match.venue.image}
             alt={`Estádio ${match.venue.name}`}
             fill
-            sizes="(min-width: 1280px) 310px, (min-width: 1024px) 25vw, 100vw"
+            sizes="(min-width: 1280px) 310px, (min-width: 768px) 25vw, 100vw"
             className={styles.stadiumImage}
           />
         )}

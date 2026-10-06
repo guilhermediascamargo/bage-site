@@ -17,8 +17,9 @@ validações conhecidas ficam em `docs/project-status.md`.
 - Notícias: dez matérias factuais de Futebol/Clube, listagem cronológica, template
   único e três destaques curados no Agora. Fotos locais provisórias e créditos opcionais.
 - Clube: primeiro frame, vídeo de entrada e interior interativo com camisa, três
-  conquistas e escudo. Até 1023 px, seletores identificados e painel completo abaixo
-  da cena; desktop mantém pontos e cards conectados à imagem. Conteúdo local
+  conquistas e escudo. Celular mantém seletores e painel abaixo da cena; tablet
+  até 1199 px aproxima painel e seletores em portrait e oferece contexto lateral
+  em landscape. A partir de 1200 px, pontos e cards conectados à imagem. Conteúdo local
   fornecido, painel único e entrada sem vídeo em reduced motion.
 - A notícia e o próximo jogo do hero
   são demonstrativos; o último resultado utiliza o dataset real de Jogos.

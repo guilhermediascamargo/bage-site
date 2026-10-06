@@ -999,6 +999,43 @@
     gap: 0.75rem;
   }
 }
+@media (min-width: 600px) and (max-width: 1199px) {
+  .progress a {
+    min-height: 44px;
+  }
+}
+@media (min-width: 600px) and (max-width: 1199px) and (orientation: portrait) {
+  .homeSearch,
+  .immortals {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .stickyCopy,
+  .immortalsAnchor {
+    position: static;
+  }
+  .homeSteps article,
+  .beat {
+    min-height: 0;
+    padding-block: 2rem 3rem;
+  }
+  .immortalsYear {
+    font-size: 28vw;
+  }
+}
+@media (min-width: 900px) and (max-width: 1199px) and (orientation: landscape) {
+  .current {
+    display: block;
+  }
+  .openingCopy {
+    width: 58%;
+    margin-top: 4rem;
+  }
+  .openingYear {
+    top: 0.35em;
+    font-size: 38vw;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .story *,
   .story *::before,

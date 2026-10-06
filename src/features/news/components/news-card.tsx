@@ -25,7 +25,7 @@ export default function NewsCard({
             sizes={
               variant === "lead"
                 ? "(max-width: 959px) 90vw, 55vw"
-                : "(max-width: 639px) 90vw, (max-width: 959px) 45vw, 33vw"
+                : "(max-width: 599px) 90vw, (max-width: 959px) 45vw, 33vw"
             }
             preload={preload}
           />

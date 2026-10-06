@@ -21,7 +21,7 @@ import styles from "./club-experience.module.css";
 
 type Phase = "entry" | "entering" | "interior";
 type CardPosition = ReturnType<typeof placeClubCard>;
-const mobileLayout = "(max-width: 63.99rem)";
+const flowLayout = "(max-width: 1199px)";
 
 export default function ClubExperience({
   hotspots,
@@ -124,7 +124,7 @@ export default function ClubExperience({
     cardFocusPendingRef.current = false;
     if (selectedId)
       buttonsRef.current.get(selectedId)?.focus({
-        preventScroll: !window.matchMedia(mobileLayout).matches,
+        preventScroll: !window.matchMedia(flowLayout).matches,
       });
     setSelectedId(null);
     setCardPosition(null);
@@ -136,7 +136,7 @@ export default function ClubExperience({
     const scene = sceneRef.current;
     const card = cardRef.current;
     const measure = () => {
-      if (window.matchMedia(mobileLayout).matches) {
+      if (window.matchMedia(flowLayout).matches) {
         setCardPosition(null);
         return;
       }
@@ -159,7 +159,7 @@ export default function ClubExperience({
   }, [active]);
 
   useEffect(() => {
-    const mobile = window.matchMedia(mobileLayout).matches;
+    const mobile = window.matchMedia(flowLayout).matches;
     if (active && (mobile || cardPosition) && cardFocusPendingRef.current) {
       closeRef.current?.focus({ preventScroll: true });
       if (mobile)
@@ -173,6 +173,32 @@ export default function ClubExperience({
       cardFocusPendingRef.current = false;
     }
   }, [active, cardPosition]);
+
+  useEffect(() => {
+    if (!active) return;
+    const landscape = window.matchMedia("(orientation: landscape)");
+    let frame: number | undefined;
+    const keepContextVisible = () => {
+      if (
+        !window.matchMedia("(min-width: 600px) and (max-width: 1199px)")
+          .matches ||
+        !cardRef.current?.contains(document.activeElement)
+      )
+        return;
+      frame = requestAnimationFrame(() => {
+        const target = landscape.matches ? sceneRef.current : cardRef.current;
+        target?.scrollIntoView({
+          block: landscape.matches ? "start" : "nearest",
+          behavior: "instant",
+        });
+      });
+    };
+    landscape.addEventListener("change", keepContextVisible);
+    return () => {
+      landscape.removeEventListener("change", keepContextVisible);
+      if (frame !== undefined) cancelAnimationFrame(frame);
+    };
+  }, [active]);
 
   useEffect(() => {
     if (!active) return;
@@ -212,7 +238,7 @@ export default function ClubExperience({
         focusFrame = requestAnimationFrame(() => {
           if (phaseRef.current !== phase || !target.isConnected) return;
           target.focus({ preventScroll: true });
-          if (phase === "entry" && window.matchMedia(mobileLayout).matches)
+          if (phase === "entry" && window.matchMedia(flowLayout).matches)
             sceneRef.current?.scrollIntoView({
               block: "start",
               behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -273,7 +299,7 @@ export default function ClubExperience({
 
   return (
     <div className={styles.experience} data-phase={phase}>
-      <div className={styles.stage}>
+      <div className={styles.stage} data-panel-open={Boolean(active)}>
         <div ref={sceneRef} className={styles.scene}>
           <Image
             src={clubMedia.entryPoster}
@@ -317,7 +343,7 @@ export default function ClubExperience({
               alt="Interior do espaço do Bagé com camisa no manequim, taças na vitrine e escudo na parede."
               aria-hidden={phase !== "interior"}
               fill
-              sizes="(max-width: 1600px) 100vw, 1600px"
+              sizes="(min-width: 600px) and (max-width: 1199px) and (orientation: landscape) 66vw, (max-width: 1600px) 100vw, 1600px"
               loading="eager"
               className={`${styles.image} ${styles.interior}`}
               data-visible={interiorVisible && interiorReady}
@@ -465,8 +491,8 @@ export default function ClubExperience({
                   className={styles.card}
                   data-positioned={!!cardPosition}
                   style={{
-                    left: cardPosition?.left ?? 8,
-                    top: cardPosition?.top ?? 8,
+                    left: cardPosition?.left,
+                    top: cardPosition?.top,
                   }}
                   aria-labelledby="club-card-title"
                 >

@@ -309,6 +309,23 @@
     padding: 1.4rem 0;
   }
 }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .card {
+    grid-template-columns: minmax(150px, 26%) minmax(0, 1fr);
+  }
+  .stadium {
+    min-height: 100%;
+  }
+  .content {
+    padding: 1.25rem;
+  }
+  .scoreboard {
+    padding-block: 1.25rem;
+  }
+  .team {
+    font-size: 0.875rem;
+  }
+}
 @media (hover: hover) {
   .card:hover {
     border-color: #827039;
